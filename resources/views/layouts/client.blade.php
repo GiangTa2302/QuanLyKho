@@ -79,7 +79,7 @@
                                                 @if(Auth::user()->is_admin == 2)
                                                 <div class="user-info ml-5">
                                                     <a class="user-set-role__button" href="#" data-toggle="dropdown" aria-haspopup="true">
-                                                        ({{Auth::user()->name}}) 
+                                                        {{Auth::user()->name}}
                                                     </a>
                                                     <ul class="expand-dropdown-menu dropdown-menu" >
                                                         <li><a href="{{route('user.myAccount',['id'=>Auth::user()->id])}}">Tài khoản của tôi</a></li>
@@ -121,92 +121,7 @@
                 </div>
             </div> <!-- End Header Middle area -->
     
-            <!-- Start Header Menu Area -->
-            <div class="header-menu">
-                <div class="container">
-                    <div class="row col-12">
-                        <nav>
-                            <ul class="header__nav">
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                    <a href="{{route('home')}}" class="header__nav-link">TRANG CHỦ</i></a>                                
-                                </li> <!-- End Single Nav link-->
-                                
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                    <a href="#" class="header__nav-link">KHO<i class="icon-chevron-down"></i></a>
-                                    <!-- Megamenu Menu-->
-                                    <ul class="mega-menu pos-absolute">
-                                        <li class="mega-menu__box">
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li>
-                                                </ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-    
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">                                                    
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-    
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">                                                    
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-    
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">                                                    
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-                                        </li>
-                                        <!--Megamenu Item Banner-->
-                                        <li class="mega-menu__banner">
-                                            <a href="chiTietHang.html" class="mega-menu__banner-link">
-                                                <img src="assets/clients/img/banner/menu-banner.jpg" alt="" class="mega-menu__banner-img">
-                                            </a>
-                                        </li>
-                                        <!--Megamenu Item Banner-->
-                                    </ul>
-                                    <!-- Megamenu Menu-->
-                                </li> <!-- Start Single Nav link-->
-                                
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                    <a class="dropdown-toggle header__nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
-                                        DANH MỤC SẢN PHẨM
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @foreach ($cats as $cat)
-                                            <a class="dropdown-item" href="{{route('listProduct',['id'=>$cat->id])}}">{{$cat->name}}</a>
-                                        @endforeach
-                                    </div>                           
-                                </li> <!-- End Single Nav link-->
-    
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                        <a href="{{route('contact')}}" class="header__nav-link">LIÊN HỆ</a>
-                                </li> <!-- End Single Nav link-->
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div> <!-- End Header Menu Area -->
+           @include('clients.header')
     
             </div> <!-- ::::::  End Large Header Section  ::::::  -->
     
@@ -246,7 +161,7 @@
     
                         <!-- Start Header Mobile Middle area -->
                         <div class="header__mobile-middle header__top--style-1 p-tb-10">
-                            <form class="header__search-form" action="#">
+                            <form class="header__search-form" action="" method="POST">
                                 <div class="header__search-input header__search-input--mobile">
                                     <input type="search" placeholder="Nhập sản phẩm cần tìm">
                                     <button class="btn btn--submit btn--blue btn--uppercase btn--weight" type="submit"><i class="fal fa-search"></i></button>
@@ -259,115 +174,6 @@
                 </div>
             </div>
         </div> <!-- ::::::  Start Mobile Header Section  ::::::  -->
-    
-        <!-- ::::::  Start Mobile-offcanvas Menu Section  ::::::  -->
-        {{-- <div id="offcanvas-mobile-menu" class="offcanvas offcanvas-mobile-menu">
-            <button class="offcanvas__close offcanvas-close">&times;</button>
-            <div class="offcanvas-inner">
-                <div class="offcanvas-userpanel m-b-30">
-                    <ul>
-                        <li class="offcanvas-userpanel__role">
-                            <a href="{{route('login')}}">Đăng nhập</a>
-                            <ul class="expand-dropdown-menu dropdown-menu" >
-                                <li><a href="{{route('contact')}}">Tài khoản của tôi</a></li>
-                                <li><a href="wishlist.html">My wishlist</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="{{route('login')}}">Sign in</a></li>
-                            </ul>
-                        </li>
-                        <li class="offcanvas-userpanel__role">
-                            <a href="#">USD $</a>
-                            <ul class="user-sub-menu">
-                                <li><a href="#">VND</a></li>
-                                <li><a href="#">USD</a></li>
-                            </ul>
-                        </li>
-                        <li class="offcanvas-userpanel__role">
-                            <a href="#"><img src="assets/clients/img/icon/flag/icon_usa.png" alt="">English </a>
-                            <ul class="user-sub-menu">
-                                <li><a href="#"><img src="assets/clients/img/icon/flag/icon_usa.png" alt="">English</a></li>
-                                <li><a href="#"><img src="assets/clients/img/icon/flag/icon_france.png" alt=""> Tiếng Việt</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="offcanvas-menu m-b-30">
-                    <a href="#" class="header__nav-link">KHO<i class="icon-chevron-down"></i></a>
-                    <!-- Megamenu Menu-->
-                    <ul class="mega-menu pos-absolute">
-                        <li class="mega-menu__box">
-                            <!--Single Megamenu Item Menu-->
-                            <div class="mega-menu__item-box">
-                                <ul class="mega-menu__item">
-                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li>
-                                </ul>
-                            </div>
-                            <!--Single Megamenu Item Menu-->
-    
-                            <!--Single Megamenu Item Menu-->
-                            <div class="mega-menu__item-box">
-                                <ul class="mega-menu__item">                                                    
-                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                            </div>
-                            <!--Single Megamenu Item Menu-->
-    
-                            <!--Single Megamenu Item Menu-->
-                            <div class="mega-menu__item-box">
-                                <ul class="mega-menu__item">                                                    
-                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                            </div>
-                            <!--Single Megamenu Item Menu-->
-    
-                            <!--Single Megamenu Item Menu-->
-                            <div class="mega-menu__item-box">
-                                <ul class="mega-menu__item">                                                    
-                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                            </div>
-                            <!--Single Megamenu Item Menu-->
-                        </li>
-                        <!--Megamenu Item Banner-->
-                        <li class="mega-menu__banner">
-                            <a href="chiTietHang.html" class="mega-menu__banner-link">
-                                <img src="assets/clients/img/banner/menu-banner.jpg" alt="" class="mega-menu__banner-img">
-                            </a>
-                        </li>
-                        <!--Megamenu Item Banner-->
-                    </ul>
-                    <!-- Megamenu Menu-->
-                </div>
-                <div class="offcanvas-buttons m-b-30">
-                    <a href="my-account.html" class="user"><i class="icon-user"></i></a>
-                    <a href="wishlist.html"><i class="icon-heart"></i></a>
-                    <a href="cart.html"><i class="icon-shopping-cart"></i></a>
-                </div>
-                <div class="offcanvas-social">
-                    <span>Stay With Us</span>
-                    <ul>
-                        <li>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div> <!-- ::::::  End Mobile-offcanvas Menu Section  ::::::  --> --}}
     
         <div class="offcanvas-overlay"></div>
     </header>
@@ -392,10 +198,10 @@
                                 </a>
                             </div>
                             <div class="footer__text">
-                                <p>We are a team of designers & developers that create high quality Magento, Prestashop, Opencart.</p>
+                                <p>Chúng tôi là một nhóm các nhà thiết kế & phát triển tạo ra Magento, Prestashop, Opencart chất lượng cao.</p>
                             </div>
                             <ul class="footer__address">
-                                <li class="footer__address-item"><span>Địa chỉ:</span> The Barn, Ullenhall, Henley in Arden B578 5C, England.</li>
+                                <li class="footer__address-item"><span>Địa chỉ:</span> Tây Lai Xá, Kim Chung, Hoài Đức, Hà Nội.</li>
                                 <li class="footer__address-item"><span>SĐT: </span> <a href="tel:+(012)-800-456-789-987">+(012) 800 456 789 - 987</a> </li>
                                 <li class="footer__address-item"><span>Email: </span> <a href="mailto:tagiang2001thi@gmail.com">tagiang2001thi@gmail.com</a></li>
                             </ul>
@@ -405,12 +211,12 @@
                         <div class="footer__menu">
                             <h4 class="footer__nav-title">Sản Phẩm</h4>
                             <ul class="footer__nav">
-                                <li class="footer__list"><a href="" class="footer__link">Prices drop</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">New products</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Best sales</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Contact us</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Sitemap</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Login</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Giảm giá</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Sản phẩm mới</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Bán chạy nhất</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Liên hệ</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Bản đồ</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Đăng nhập</a></li>
                             </ul>
                         </div>
                     </div>
@@ -418,12 +224,12 @@
                         <div class="footer__menu">
                             <h4 class="footer__nav-title">Công ty của chúng tôi</h4>
                             <ul class="footer__nav">
-                                <li class="footer__list"><a href="" class="footer__link">Delivery</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Legal Notice</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">About us</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Secure payment</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Sitemap</a></li>
-                                <li class="footer__list"><a href="" class="footer__link">Stores</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Vận chuyển</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Thông báo</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Phản hồi</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Thanh toán an toàn</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Bản đồ</a></li>
+                                <li class="footer__list"><a href="" class="footer__link">Cửa hàng</a></li>
                             </ul>
                         </div>
                     </div>
@@ -433,11 +239,11 @@
                                 <div class="footer__menu">
                                     <h4 class="footer__nav-title">Theo dõi chúng tôi</h4>
                                     <ul class="footer__social-nav">
-                                        <li class="footer__social-list"><a href="#" class="footer__social-link"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li class="footer__social-list"><a href="https://www.facebook.com/profile.php?id=100049246088557" class="footer__social-link"><i class="fab fa-facebook-f"></i></a></li>
                                         <li class="footer__social-list"><a href="#" class="footer__social-link"><i class="fab fa-twitter"></i></a></li>
-                                        <li class="footer__social-list"><a href="#" class="footer__social-link"><i class="fab fa-youtube"></i></a></li>
+                                        <li class="footer__social-list"><a href="https://www.youtube.com/channel/UC1w6Dnb6guy5671NsHxLxyg" class="footer__social-link"><i class="fab fa-youtube"></i></a></li>
                                         <li class="footer__social-list"><a href="#" class="footer__social-link"><i class="fab fa-google-plus-g"></i></a></li>
-                                        <li class="footer__social-list"><a href="#" class="footer__social-link"><i class="fab fa-instagram"></i></a></li>
+                                        <li class="footer__social-list"><a href="https://www.instagram.com/giangta23/" class="footer__social-link"><i class="fab fa-instagram"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -445,8 +251,8 @@
                                 <div class="footer__form">
                                     <h4 class="footer__nav-title">Nhận thông tin mới nhất</h4>
                                     <form action="#" class="footer__form-box">
-                                        <input type="email" placeholder="Your email address">
-                                        <button class="btn btn--submit btn--blue btn--uppercase btn--weight " type="submit">Submit</button>
+                                        <input type="email" placeholder="email">
+                                        <button class="btn btn--submit btn--blue btn--uppercase btn--weight " type="submit">Gửi</button>
                                     </form>
                                 </div>
                             </div>

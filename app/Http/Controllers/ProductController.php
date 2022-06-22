@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 // use Cart;
 
@@ -13,19 +14,36 @@ class ProductController extends Controller
     public $data = [];
 
     public function __construct(){
-        $this->data['cats'] = Category::all();
+        $this->data['countN'] = DB::table('orders')->where('is_check','=',NULL)->where('typeOrder','=','nhap')->count();
+        $this->data['countX'] = DB::table('orders')->where('is_check','=',NULL)->where('typeOrder','=','xuat')->count();
+        $this->data['cate'] = Category::all();
     }
     
-    public function index(){
+    public function index($category_id){
         $this->data['layout'] = 'admin.sanpham';
         $this->data['isAdmin'] = true;
 
-        $pros = Product::orderBy('created_at','DESC')->get();
-        
-        return view('homeMain', $this->data, compact('pros'));
+        $products = Product::where('category_id',$category_id)->orderBy('created_at','DESC')->get();
+        $pros1 = array();
+        $pros2 = array();
+        $i = 0; $m = 0;
+        $date = date('Y-m-d');
+        foreach ($products as $item) {
+            $tgBQ = $item->tgBaoQuan;
+            if(strtotime($tgBQ) > strtotime($date)){
+                $pros1[$i] = $item;
+                $i++;
+            } else{
+                $pros2[$m] = $item;
+                $m++;
+            }
+        }
+        $cats = Category::all();
+
+        return view('homeMain', $this->data, compact('pros1','pros2','cats'));
     }
 
-    public function add(Request $request){
+    public function store(Request $request){
         $file = $request->file('image');
         $fileName = time() . '.' . $file->getClientOriginalExtension();
         $file->storeAs('public/products', $fileName);
@@ -35,8 +53,8 @@ class ProductController extends Controller
             'DVT' =>$request->DVT,
             'mauSac' =>$request->mauSac,
             'tgBaoQuan' =>$request->tgBaoQuan,
-            'regular_price' =>$request->regular_price,
-            'sale_price' =>$request->sale_price,
+            'giaNhap' =>$request->giaNhap,
+            'giaXuat' =>$request->giaXuat,
             'description' =>$request->description,
             'category_id' =>$request->category_id,
             'image' =>$fileName
@@ -74,7 +92,7 @@ class ProductController extends Controller
         return view('homeMain', $this->data, compact('pro','cat', 'products'));
     }
 
-    public function uploadPro(Request $request){
+    public function updatePro(Request $request){
         $fileName = '';
 		$pro = Product::find($request->id);
 		if ($request->hasFile('image')) {
@@ -85,19 +103,19 @@ class ProductController extends Controller
 				Storage::delete('public/products/' . $pro->image);
 			}
 		} else {
-			$fileName = $request->pro_image;
+			$fileName = $pro->image;
 		}
 
 		$proData = [
-            'tenSP' =>$request->tenSP,
-            'DVT' =>$request->DVT,
-            'mauSac' =>$request->mauSac,
-            'tgBaoQuan' =>$request->tgBaoQuan,
-            'regular_price' =>$request->regular_price,
-            'sale_price' =>$request->sale_price,
-            'description' =>$request->description,
-            'category_id' =>$request->category_id,
-            'image' =>$fileName,
+            'tenSP' => $request->tenSP,
+            'DVT' => $request->DVT,
+            'mauSac' => $request->mauSac,
+            'tgBaoQuan' => date('Y-m-d', strtotime($request->tgBaoQuan)),
+            'giaNhap' => $request->giaNhap,
+            'giaXuat' => $request->giaXuat,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'image' => $fileName,
         ];
 
 		$pro->update($proData);
@@ -114,7 +132,7 @@ class ProductController extends Controller
         return response()->json(['success'=>'Xóa bản ghi thành công!']);
     }
 
-    public function addToCart($id){
+    public function addToCart($id, $role){
         $pros = Product::find($id);
 
         $cart = session()->get('cart');
@@ -122,8 +140,8 @@ class ProductController extends Controller
         $cart[$id] = [
             'pro_id' => $pros->id,
             'name' => $pros->tenSP,
-            'qty' => 1,
-            'price' => $pros->sale_price,
+            'qty' => 1, 
+            'price' => ($role == 0) ? $pros->giaXuat : $pros->giaNhap,
             'image' => $pros->image,
         ];
         
@@ -150,5 +168,59 @@ class ProductController extends Controller
         session()->forget('cart', $cart);
 
         return redirect()->back()->with('success', 'Xóa giỏ hàng thành công!');
+    }
+
+    public function addQuantity($id, $role){
+        $pros = Product::find($id);
+
+        $cart = session()->get('cart');
+        
+        $qty = $cart[$id]['qty'];
+        $qty++;
+
+        if($role == 0){
+            $cart[$id] = [
+                'pro_id' => $pros->id,
+                'name' => $pros->tenSP,
+                'qty' => $qty > $pros->quantity ? $pros->quantity : $qty, 
+                'price' => $pros->giaXuat,
+                'image' => $pros->image,
+            ];
+        }
+        else {
+            $cart[$id] = [
+                'pro_id' => $pros->id,
+                'name' => $pros->tenSP,
+                'qty' => $qty, 
+                'price' => $pros->giaNhap,
+                'image' => $pros->image,
+            ];
+        }
+        
+        
+        session()->put('cart',$cart);
+
+        return redirect()->back();
+    }
+    
+    public function removeQuantity($id){
+        $pros = Product::find($id);
+
+        $cart = session()->get('cart');
+        
+        $qty = $cart[$id]['qty'];
+        $qty--;
+
+        $cart[$id] = [
+            'pro_id' => $pros->id,
+            'name' => $pros->tenSP,
+            'qty' => $qty > 1 ? $qty : 1, 
+            'price' => $pros->giaXuat,
+            'image' => $pros->image,
+        ];
+        
+        session()->put('cart',$cart);
+
+        return redirect()->back();
     }
 }

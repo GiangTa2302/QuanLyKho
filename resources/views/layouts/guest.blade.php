@@ -1,28 +1,3 @@
-{{-- <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-
-        <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}" defer></script>
-    </head>
-    <body>
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
-        </div>
-    </body>
-</html> --}}
-
 <!DOCTYPE html>
 <html>
 
@@ -147,95 +122,7 @@
                 </div>
             </div> <!-- End Header Middle area -->
     
-            <!-- Start Header Menu Area -->
-            <div class="header-menu">
-                <div class="container">
-                    <div class="row col-12">
-                        <nav>
-                            <ul class="header__nav">
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                    <a href="{{route('home')}}" class="header__nav-link">TRANG CHỦ</i></a>                                
-                                </li> <!-- End Single Nav link-->
-    
-                                
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                    <a href="#" class="header__nav-link">KHO<i class="icon-chevron-down"></i></a>
-                                    <!-- Megamenu Menu-->
-                                    <ul class="mega-menu pos-absolute">
-                                        <li class="mega-menu__box">
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li>
-                                                </ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-    
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">                                                    
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-    
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">                                                    
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-    
-                                            <!--Single Megamenu Item Menu-->
-                                            <div class="mega-menu__item-box">
-                                                <ul class="mega-menu__item">                                                    
-                                                    <li class="mega-menu__list"><a href="chiTietHang.html" class="mega-menu__link">Kho Cầu Giấy</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-4-grid.html" class="mega-menu__link">Kho Hà Đông</a></li>
-                                                    <li class="mega-menu__list"><a href="shop-5-grid.html" class="mega-menu__link">Kho Bắc Từ Liêm</a></li></ul>
-                                            </div>
-                                            <!--Single Megamenu Item Menu-->
-                                        </li>
-                                        <!--Megamenu Item Banner-->
-                                        <li class="mega-menu__banner">
-                                            <a href="chiTietHang.html" class="mega-menu__banner-link">
-                                                <img src="assets/clients/img/banner/menu-banner.jpg" alt="" class="mega-menu__banner-img">
-                                            </a>
-                                        </li>
-                                        <!--Megamenu Item Banner-->
-                                    </ul>
-                                    <!-- Megamenu Menu-->
-                                </li> <!-- Start Single Nav link-->
-                                
-                                
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                    <a class="dropdown-toggle header__nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
-                                        DANH MỤC SẢN PHẨM
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{route('product')}}">ĐIỆN THOẠI</a>
-                                        <a class="dropdown-item" href="{{route('product')}}">TABLET</a>
-                                        <a class="dropdown-item" href="{{route('product')}}">LAPTOP</a>
-                                        <a class="dropdown-item" href="{{route('product')}}">PHỤ KIỆN KHÁC</a>
-                                    </div>                           
-                                </li> <!-- End Single Nav link-->
-    
-                                <!--Start Single Nav link-->
-                                <li class="header__nav-item pos-relative">
-                                        <a href="{{route('contact')}}" class="header__nav-link">LIÊN HỆ</a>
-                                </li> <!-- End Single Nav link-->
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div> <!-- End Header Menu Area -->
+            @include('clients.header')
     
             </div> <!-- ::::::  End Large Header Section  ::::::  -->
     
@@ -473,7 +360,6 @@
     
     <!-- ::::::  Start  Main Container Section  ::::::  -->
    <div class="content">
-    {{-- @yield('content') --}}
     {{ $slot }}
    </div>
     <!-- ::::::  End  Main Container Section  ::::::  -->

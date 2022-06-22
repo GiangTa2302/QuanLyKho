@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhotosTable extends Migration
+class CreateTotalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreatePhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('photos', function (Blueprint $table) {
+        Schema::create('totals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('size');
+            $table->integer('tongX')->default(0);
+            $table->integer('tongN')->default(0);
+            $table->decimal('doanhThu', 20, 2)->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreatePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photos');
+        Schema::dropIfExists('totals');
     }
 }

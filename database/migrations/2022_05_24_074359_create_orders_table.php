@@ -24,11 +24,12 @@ class CreateOrdersTable extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('note')->nullable();
-            $table->decimal('total')->nullable();
+            $table->decimal('total', 20, 2)->default(0);
             $table->boolean('is_check')->nullable();
             $table->string('typeOrder');
+            $table->string('tenNVK')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

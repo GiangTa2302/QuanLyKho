@@ -27,7 +27,7 @@
 									<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
 								</div>
 								<div class="card-body">
-									<form id="AddProductForm" method="POST" enctype="multipart/form-data" >
+									<form id="AddProductForm" enctype="multipart/form-data" >
 										@csrf
 										<div class="mb-3">
 											<label class="form-label" for="tenSP">Tên sản phẩm</label>
@@ -56,12 +56,12 @@
 										</div>
 										<div class="row">
 											<div class="mb-3 col-md-6">
-												<label class="form-label" for="phone">Giá cũ</label>
-												<input type="text" class="form-control" id="regular_price" name="regular_price">
+												<label class="form-label" for="phone">Giá nhập</label>
+												<input type="text" class="form-control" id="giaNhap" name="giaNhap">
 											</div>
 											<div class="mb-3 col-md-6">
-												<label class="form-label" for="sale_price">Giá mới</label>
-												<input type="text" class="form-control" id="sale_price" name="sale_price">
+												<label class="form-label" for="giaXuat">Giá xuất</label>
+												<input type="text" class="form-control" id="giaXuat" name="giaXuat">
 											</div>
 										</div>
 										<div class="row">
@@ -70,7 +70,7 @@
 												<textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
 											</div>
 											<div class="mb-3 col-md-6">
-												<label class="form-label" for="sale_price">Danh mục</label>
+												<label class="form-label" for="giaXuat">Danh mục</label>
 												<select class="form-select" name="category_id" id="category_id" >
 													@foreach ($cats as $cat)
 													<option value="{{$cat->id}}">{{$cat->name}}</option>
@@ -90,192 +90,358 @@
 			</div>
 			<!-- END primary modal -->
 
-			<div class="col-12">
-				<div class="card">
-					<div class="card-body">
-						<table id="datatables-buttons" class="table table-striped" style="width:100%">
-							<thead>
-								<tr>
-									<th>Tên sản phẩm</th>
-									<th>Ảnh</th>
-									<th>Màu sắc</th>
-									<th>Đơn vị tính</th>
-									<th>Giá</th>
-									<th>Hạn sử dụng</th>
-									<th>Hành động</th>
-								</tr>
-							</thead>
-							<tbody>
-								@if(!empty($pros))
-									@foreach ($pros as $pro)
-									<tr id="pid{{$pro->id}}">
-										<td>{{$pro->tenSP}}</td>
-										<td>
-											<img src="{{asset('storage/products/'.$pro->image)}}" alt="" width="50px" height="50px">
-										</td>
-										<td>{{$pro->mauSac}}</td>
-										<td>{{$pro->DVT}}</td>
-										<td>{{$pro->sale_price}}</td>
-										<td>{{$pro->tgBaoQuan}}</td>
-										<td>
-											<a href="#" id="{{$pro->id}}" class="editIcon" data-bs-toggle="modal" data-bs-target="#EditProductModel">
-												<i class="align-middle" data-feather="edit-2"></i>
-											</a>
-											<div class="modal fade" id="EditProductModel" tabindex="-1" role="dialog" aria-hidden="true">
-												<div class="modal-dialog" role="document">
-													<div class="modal-content">
-														<div class="col-md-12">
-															<div class="card">
-																<div class="card-header">
-																	<h5 class="card-title">Nhân viên kho</h5>
-																	<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
-																</div>
-																<div class="card-body">
-																	<form id="EditProductForm" method="POST" enctype="multipart/form-data">
-																		@csrf
-																		<input type="hidden" name="id" id="id">
-																		<input type="hidden" name="pro_image" id="pro_image">
-																		<div class="mb-3">
-																			<label class="form-label" for="tenSP">Tên sản phẩm</label>
-																			<input type="text" class="form-control" id="edit_tenSP" name="tenSP" >
-																		</div>
-																		<div class="row">
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="DVT">Đơn vị tính</label>
-																				<input type="text" class="form-control" id="edit_DVT" name="DVT">
+			<div class="row justify-content-center mt-3 mb-2">
+				<div class="col-auto">
+					<nav class="nav btn-group">
+						<a href="#monthly" class="btn btn-outline-primary active" data-bs-toggle="tab">Sản phẩm</a>
+						<a href="#annual" class="btn btn-outline-primary" data-bs-toggle="tab">Sản phẩm hết hạn</a>
+					</nav>
+				</div>
+			</div>
+			<div class="tab-content">
+				<div class="col-12 tab-pane fade show active" id="monthly">
+					<div class="card">
+						<div class="card-body">
+							<table id="datatables-buttons" class="table table-striped" style="width:100%">
+								<thead>
+									<tr>
+										<th>STT</th>
+										<th>Tên sản phẩm</th>
+										<th>Ảnh</th>
+										<th>Màu sắc</th>
+										<th>Đơn vị tính</th>
+										<th>Giá Nhập</th>
+										<th>Giá Xuất</th>
+										<th>Số lượng</th>
+										<th>Hạn sử dụng</th>
+										<th>Hành động</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if(!empty($pros1))
+										@php
+											$i = 1;
+										@endphp
+										@foreach ($pros1 as $pro)
+										<tr id="pid{{$pro->id}}">
+											<td>{{$i++}}</td>
+											<td>{{$pro->tenSP}}</td>
+											<td>
+												<img src="{{asset('storage/products/'.$pro->image)}}" alt="" width="50px" height="50px">
+											</td>
+											<td>{{$pro->mauSac}}</td>
+											<td>{{$pro->DVT}}</td>
+											<td>
+												@php
+													echo number_format($pro->giaNhap).'đ';
+												@endphp
+											</td>
+											<td>
+												@php
+													echo number_format($pro->giaXuat).'đ';
+												@endphp
+											</td>
+											<td>{{$pro->quantity}}</td>
+											<td>
+												@php
+													echo date('d-m-Y', strtotime($pro->tgBaoQuan));
+												@endphp
+											</td>
+											<td>
+												@php
+													$id = $pro->id;
+												@endphp
+												<a href="#" onclick="updatePro({{$id}})" data-bs-toggle="modal" data-bs-target="#EditProductModel{{$id}}">
+													<i class="align-middle" data-feather="edit-2"></i>
+												</a>
+												<div class="modal fade" id="EditProductModel{{$id}}" tabindex="-1" role="dialog" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-header">
+																		<h5 class="card-title">Sản phẩm</h5>
+																		<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
+																	</div>
+																	<div class="card-body">
+																		<form id="EditProductForm{{$id}}" enctype="multipart/form-data">
+																			@csrf
+																			<input type="hidden" name="id" value="{{$pro->id}}">
+																			<div class="mb-3">
+																				<label class="form-label" for="tenSP">Tên sản phẩm</label>
+																				<input type="text" class="form-control" id="edit_tenSP" name="tenSP" value="{{$pro->tenSP}}">
 																			</div>
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="mauSac">Màu sắc</label>
-																				<input type="text" class="form-control" id="edit_mauSac" name="mauSac">
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="DVT">Đơn vị tính</label>
+																					<input type="text" class="form-control" id="edit_DVT" name="DVT" value="{{$pro->DVT}}">
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="mauSac">Màu sắc</label>
+																					<input type="text" class="form-control" id="edit_mauSac" name="mauSac" value="{{$pro->mauSac}}">
+																				</div>
 																			</div>
-																		</div>
-																		
-																		<div class="row">
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="tgBaoQuan">Hạn sử dụng</label>
-																				<input type="date" class="form-control" id="edit_tgBaoQuan" name="tgBaoQuan">
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="tgBaoQuan">Hạn sử dụng</label>
+																					@php
+																						$time = date('Y-m-d', strtotime($pro->tgBaoQuan));
+																					@endphp
+																					<input type="date" class="form-control" id="edit_tgBaoQuan" name="tgBaoQuan" value="{{$time}}">
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="image">Ảnh</label>
+																					<input type="file" class="form-control" name="image" value="{{$pro->image}}">
+																				</div>
+																				<div id="edit_image" class="img-fluid">
+																					<img src="{{asset('storage/products/'.$pro->image)}}" alt="" width="50px" height="50px">
+																				</div>
 																			</div>
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="image">Ảnh</label>
-																				<input type="file" class="form-control" name="image">
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="giaNhap">Giá nhập</label>
+																					<input type="text" class="form-control" id="edit_giaNhap" name="giaNhap" value="{{$pro->giaNhap}}">
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="giaXuat">Giá xuất</label>
+																					<input type="text" class="form-control" id="edit_giaXuat" name="giaXuat" value="{{$pro->giaXuat}}">
+																				</div>
 																			</div>
-																			<div id="edit_image" class="img-fluid"></div>
-																		</div>
-																		<div class="row">
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="regular_price">Giá cũ</label>
-																				<input type="text" class="form-control" id="edit_regular_price" name="regular_price">
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="description">Mô tả</label>
+																					<textarea name="description" id="edit_description" cols="30" rows="10" class="form-control" >{{$pro->description}}</textarea>
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="category_id">Danh mục</label>
+																					<select class="form-select" name="category_id" id="edit_category_id" >
+																						@foreach ($cats as $cat)
+																						<option value="{{$cat->id}}" 
+																						@php
+																							echo ($cat->id == $pro->category_id) ? 'selected' : ''
+																						@endphp >{{$cat->name}}</option>
+																						@endforeach
+																					</select>
+																				</div>
 																			</div>
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="sale_price">Giá mới</label>
-																				<input type="text" class="form-control" id="edit_sale_price" name="sale_price">
+																			<div class="mb-3 text-center">
+																				<button type="submit" class="btn btn-primary text-center">Cập nhật</button>
 																			</div>
-																		</div>
-																		<div class="row">
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="description">Mô tả</label>
-																				<textarea name="description" id="edit_description" cols="30" rows="10" class="form-control"></textarea>
-																			</div>
-																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="category_id">Danh mục</label>
-																				<select class="form-select" name="category_id" id="edit_category_id" >
-																					@foreach ($cats as $cat)
-																					<option value="{{$cat->id}}">{{$cat->name}}</option>
-																					@endforeach
-																				</select>
-																			</div>
-																		</div>
-																		<div class="mb-3 text-center">
-																			<button type="submit" class="btn btn-primary text-center">Cập nhật</button>
-																		</div>
-																	</form>
+																		</form>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-											<a href="javascript:void(0)" onclick="deletePro({{$pro->id}})" class="deleteIcon">
-												<i class="align-middle text-danger" data-feather="trash-2"></i>
-											</a>
-										</td>
-									</tr>
-									@endforeach
-								@else
-									<tr>
-										<td colspan="5">Không có nhân viên</td>
-									</tr>
-								@endif
-							</tbody>
-						</table>
+												<a href="javascript:void(0)" onclick="deletePro({{$id}})" class="deleteIcon">
+													<i class="align-middle text-danger" data-feather="trash-2"></i>
+												</a>
+											</td>
+										</tr>
+										@endforeach
+									@else
+										<tr>
+											<td colspan="5">Không có nhân viên</td>
+										</tr>
+									@endif
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-			</div>
+				<div class="col-12 tab-pane fade" id="annual">
+					<div class="card">
+						<div class="card-body">
+							<table id="datatables-buttons" class="table table-striped" style="width:100%">
+								<thead>
+									<tr>
+										<th>STT</th>
+										<th>Tên sản phẩm</th>
+										<th>Ảnh</th>
+										<th>Màu sắc</th>
+										<th>Đơn vị tính</th>
+										<th>Giá Nhập</th>
+										<th>Giá Xuất</th>
+										<th>Số lượng</th>
+										<th>Hạn sử dụng</th>
+										<th>Hành động</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if(!empty($pros2))
+										@php
+											$i = 1;
+										@endphp
+										@foreach ($pros2 as $pro)
+										<tr id="pid{{$pro->id}}">
+											<td>{{$i++}}</td>
+											<td>{{$pro->tenSP}}</td>
+											<td>
+												<img src="{{asset('storage/products/'.$pro->image)}}" alt="" width="50px" height="50px">
+											</td>
+											<td>{{$pro->mauSac}}</td>
+											<td>{{$pro->DVT}}</td>
+											<td>
+												@php
+													echo number_format($pro->giaNhap).'đ';
+												@endphp
+											</td>
+											<td>
+												@php
+													echo number_format($pro->giaXuat).'đ';
+												@endphp
+											</td>
+											<td>{{$pro->quantity}}</td>
+											<td>
+												@php
+													echo date('d-m-Y', strtotime($pro->tgBaoQuan));
+												@endphp
+											</td>
+											<td>
+												@php
+													$id = $pro->id;
+												@endphp
+												<a href="#" onclick="updatePro({{$id}})" data-bs-toggle="modal" data-bs-target="#EditProductModel{{$id}}">
+													<i class="align-middle" data-feather="edit-2"></i>
+												</a>
+												<div class="modal fade" id="EditProductModel{{$id}}" tabindex="-1" role="dialog" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="col-md-12">
+																<div class="card">
+																	<div class="card-header">
+																		<h5 class="card-title">Sản phẩm</h5>
+																		<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
+																	</div>
+																	<div class="card-body">
+																		<form id="EditProductForm{{$id}}" enctype="multipart/form-data">
+																			@csrf
+																			<input type="hidden" name="id" value="{{$pro->id}}">
+																			<div class="mb-3">
+																				<label class="form-label" for="tenSP">Tên sản phẩm</label>
+																				<input type="text" class="form-control" id="edit_tenSP" name="tenSP" value="{{$pro->tenSP}}">
+																			</div>
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="DVT">Đơn vị tính</label>
+																					<input type="text" class="form-control" id="edit_DVT" name="DVT" value="{{$pro->DVT}}">
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="mauSac">Màu sắc</label>
+																					<input type="text" class="form-control" id="edit_mauSac" name="mauSac" value="{{$pro->mauSac}}">
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="tgBaoQuan">Hạn sử dụng</label>
+																					@php
+																						$time = date('Y-m-d', strtotime($pro->tgBaoQuan));
+																					@endphp
+																					<input type="date" class="form-control" id="edit_tgBaoQuan" name="tgBaoQuan" value="{{$time}}">
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="image">Ảnh</label>
+																					<input type="file" class="form-control" name="image" value="{{$pro->image}}">
+																				</div>
+																				<div id="edit_image" class="img-fluid">
+																					<img src="{{asset('storage/products/'.$pro->image)}}" alt="" width="50px" height="50px">
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="giaNhap">Giá nhập</label>
+																					<input type="text" class="form-control" id="edit_giaNhap" name="giaNhap" value="{{$pro->giaNhap}}">
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="giaXuat">Giá xuất</label>
+																					<input type="text" class="form-control" id="edit_giaXuat" name="giaXuat" value="{{$pro->giaXuat}}">
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="description">Mô tả</label>
+																					<textarea name="description" id="edit_description" cols="30" rows="10" class="form-control" >{{$pro->description}}</textarea>
+																				</div>
+																				<div class="mb-3 col-md-6">
+																					<label class="form-label" for="category_id">Danh mục</label>
+																					<select class="form-select" name="category_id" id="edit_category_id" >
+																						@foreach ($cats as $cat)
+																						<option value="{{$cat->id}}" 
+																						@php
+																							echo ($cat->id == $pro->category_id) ? 'selected' : ''
+																						@endphp >{{$cat->name}}</option>
+																						@endforeach
+																					</select>
+																				</div>
+																			</div>
+																			<div class="mb-3 text-center">
+																				<button type="submit" class="btn btn-primary text-center">Cập nhật</button>
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<a href="javascript:void(0)" onclick="deletePro({{$id}})" class="deleteIcon">
+													<i class="align-middle text-danger" data-feather="trash-2"></i>
+												</a>
+											</td>
+										</tr>
+										@endforeach
+									@else
+										<tr>
+											<td colspan="10" style="text-align: center;">Không có sản phẩm nào</td>
+										</tr>
+									@endif
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div> 
 		</div>
-
 	</div>
 </main>
 
 <script>
-
-	//edit
-	$(document).on('click', '.editIcon', function(e){
-		e.preventDefault();
-
-		let id = $(this).attr('id');
-		
-		$.ajax({
-			url: 'san-pham/'+id,
-			data: {
-				id: id,
-            	_token: '{{ csrf_token() }}'
-			},
-			success: function(response){
-				$('#id').val(response.id);
-				$('#edit_tenSP').val(response.tenSP);
-				$('#edit_DVT').val(response.DVT);
-				$('#edit_mauSac').val(response.mauSac);
-				$('#edit_tgBaoQuan').val(response.tgBaoQuan);
-				$('#edit_regular_price').val(response.regular_price);
-				$('#edit_sale_price').val(response.sale_price);
-				$('#edit_description').val(response.description);
-				$('#edit_image').html(`<img src="{{asset('storage/products/${response.image}')}}" alt="" width="50px" height="50px">`);
-				$("#pro_image").val(response.image);
-				$("#edit_category_id").val(response.category_id);
-			}
-		})
-	});
-
-	//upload
-	$('#EditProductForm').submit(function(e){
-		e.preventDefault();
-		const formData = new FormData($('#EditProductForm')[0]);
-		
-		$.ajax({
-			url: "{{route('admin.updatePro')}}",
-			method :"POST",
-			data: formData,
-			cache: false,
-			processData: false,
-			contentType: false,
-			dataType: 'json',
-			success: function(response){
-				if(response.status == 200){
-					$('#EditProductForm')[0].reset();
-					$('#EditProductModel').modal('hide');
-					location.reload();
-					alert("Sửa sản phẩm thành công!");
+	function updatePro(id){
+		$('#EditProductForm'+id).submit(function(e){
+			e.preventDefault();
+			
+			const formData = new FormData($('#EditProductForm'+id)[0]);
+			
+			$.ajax({
+				url: "{{route('admin.updatePro')}}",
+				method :"POST",
+				data: formData,
+				cache: false,
+				processData: false,
+				contentType: false,
+				dataType: 'json',
+				success: function(response){
+					if(response.status == 200){
+						$('#EditProductForm'+id)[0].reset();
+						$('#EditProductModel'+id).modal('hide');
+						location.reload();
+						alert("Sửa sản phẩm thành công!");
+					}
 				}
-			}
+			});
 		});
-	});
+	}
+</script>
 
+<script>
 	$('#AddProductForm').submit(function(e){
 		e.preventDefault();
 		const formData = new FormData($('#AddProductForm')[0]);
+
 		$.ajax({
 			url: "{{route('admin.postPro')}}",
-			method: 'POST',
+			method: "POST",
 			data: formData,
 			cache: false,
 			processData: false,
@@ -303,7 +469,6 @@
 					_token: $("input[name=_token]").val()
 				},
 				success:function(response){
-					$("#pid"+id).remove();
 					alert(response.success);
 					location.reload();
 				}

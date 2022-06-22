@@ -3,7 +3,7 @@
             <div class="row">
                 <div class="col-12">
                     <div id="map">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2136.986005919501!2d-73.9685579655238!3d40.75862446708152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258e4a1c884e5%3A0x24fe1071086b36d5!2sThe%20Atrium!5e0!3m2!1sen!2sbd!4v1585132512970!5m2!1sen!2sbd" allowfullscreen></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d476861.257281873!2d105.37179279723776!3d20.97344498990772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135008e13800a29%3A0x2987e416210b90d!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1655002504421!5m2!1svi!2s" width="500" height="350" style="border:0;" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-5">
@@ -22,8 +22,8 @@
                                 <i class="fas fa-globe-asia"></i>
                             </div>
                             <div class="contact-info-dec">
-                                <a href="mailto://urname@email.com">urname@email.com</a>
-                                <a href="mailto://urwebsitenaem.com">urwebsitenaem.com</a>
+                                <a href="mailto://urname@email.com">tagiang2001thi@email.com</a>
+                                <a href="mailto://urwebsitenaem.com">fptshop.com</a>
                             </div>
                         </div>
                         <div class="single-contact-info">
@@ -31,13 +31,12 @@
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div class="contact-info-dec">
-                                <span>Address goes here,</span>
-                                <span>street, Crossroad 123.</span>
+                                <span>Tây Lai Xá, Kim Chung, Hoài Đức, Hà Nội</span>
                             </div>
                         </div>
                         <div class="contact-social m-t-40">
                             <div class="section-content">
-                                <h5 class="section-content__title">Follow Us</h5>
+                                <h5 class="section-content__title">Theo dõi</h5>
                             </div>
                             <div class="social-link m-t-30">
                                 <ul>
@@ -64,13 +63,13 @@
                 <div class="col-lg-8 col-md-7">
                     <div class="contact-form gray-bg m-t-40">
                         <div class="section-content">
-                            <h5 class="section-content__title">Get In Touch</h5>
+                            <h5 class="section-content__title">Liên lạc</h5>
                         </div>
                         <form class="contact-form-style" id="contact-form" action="#" method="POST">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-box__single-group">
-                                        <input type="text" placeholder="Name" required>
+                                        <input type="text" placeholder="Họ và tên" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -80,14 +79,14 @@
                                 </div>
                                 <div class="col-lg-12">
                                    <div class="form-box__single-group">
-                                        <input type="text" placeholder="Subject" required>
+                                        <input type="text" placeholder="Vấn đề" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-box__single-group">
-                                        <textarea rows="10" placeholder="Your Messege" required></textarea>
+                                        <textarea rows="10" placeholder="" required></textarea>
                                     </div>
-                                    <button class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-t-30" type="submit">Send</button>
+                                    <button class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-t-30" type="submit">Gửi ý kiến</button>
                                 </div>
                             </div>
                         </form>

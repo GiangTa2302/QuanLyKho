@@ -15,13 +15,13 @@ class Product extends Model
         'tenSP',
         'DVT',
         'mauSac',
-        'regular_price',
-        'sale_price',
+        'giaNhap',
+        'giaXuat',
         'tgBaoQuan',
         'description',
+        'quantity',
         'image',
         'images',
         'category_id',
     ];
-
 }

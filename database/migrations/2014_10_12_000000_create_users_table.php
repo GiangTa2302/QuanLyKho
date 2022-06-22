@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('image')->nullable()->default("1652787335.jpg");
             $table->tinyInteger('is_admin')->default(0);
             $table->string('address')->default("");
+            $table->tinyInteger('gender')->default(1);
+            $table->integer('dob')->nullable();
             $table->string('phone')->default("");
             $table->timestamps();
         });

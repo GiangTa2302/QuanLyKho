@@ -5,17 +5,17 @@
                     <!-- :::::::::: Start My Account Section :::::::::: -->
                     <div class="my-account-area">
                         <div class="row">
-                            <div class="col-xl-3 col-md-4">
+                            <div class="col-xl-3 col-md-2">
                                 <div class="my-account-menu">
                                     <ul class="nav account-menu-list flex-column nav-pills" id="pills-tab" role="tablist">
-                                        <li>
+                                        {{-- <li>
                                             <a class="active link--icon-left" id="pills-dashboard-tab" data-toggle="pill" href="#pills-dashboard"
                                                 role="tab" aria-controls="pills-dashboard" aria-selected="true"><i
                                                     class="fas fa-tachometer-alt"></i> Tổng quan</a>
-                                        </li>
+                                        </li> --}}
                                         <li>
-                                            <a id="pills-order-tab" class="link--icon-left" data-toggle="pill" href="#pills-order" role="tab"
-                                                aria-controls="pills-order" aria-selected="false"><i
+                                            <a id="pills-order-tab" class="active link--icon-left" data-toggle="pill" href="#pills-order" role="tab"
+                                                aria-controls="pills-order" aria-selected="true"><i
                                                     class="fas fa-shopping-cart"></i> Đơn hàng</a>
                                         </li>
                                         <li>
@@ -44,9 +44,9 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-xl-8 col-md-8">
+                            <div class="col-xl-8 col-md-10">
                                 <div class="tab-content my-account-tab" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-dashboard" role="tabpanel"
+                                    {{-- <div class="tab-pane fade show active" id="pills-dashboard" role="tabpanel"
                                         aria-labelledby="pills-dashboard-tab">
                                         <div class="my-account-dashboard account-wrapper">
                                             <h4 class="account-title">Dashboard</h4>
@@ -61,8 +61,8 @@
                                             </div>
                                             <p class="m-t-25">Từ trang tổng quan tài khoản của bạn. bạn có thể dễ dàng kiểm tra và xem các đơn đặt hàng gần đây, quản lý địa chỉ giao hàng và thanh toán cũng như chỉnh sửa mật khẩu và chi tiết tài khoản của mình.</p>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-order" role="tabpanel" aria-labelledby="pills-order-tab">
+                                    </div> --}}
+                                    <div class="tab-pane fade show active" id="pills-order" role="tabpanel" aria-labelledby="pills-order-tab">
                                         <div class="my-account-order account-wrapper">
                                             <h4 class="account-title">Đơn hàng</h4>
                                             <div class="account-table text-center m-t-30 table-responsive">
@@ -78,7 +78,42 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
+                                                        @if(isset($orderItems))
+                                                        @foreach ($orderItems as $item)
+                                                        @foreach ($pros as $pro)
+                                                            @if ($pro->id == $item->pro_id)
+                                                            <tr>
+                                                                <td>{{$item->id}}</td>
+                                                                <td>{{$pro->tenSP}}</td>
+                                                                <td>
+                                                                    @php
+                                                                        echo date('d-m-Y', strtotime($item->created_at));
+                                                                    @endphp
+                                                                </td>
+                                                                <td>
+                                                                    @php
+                                                                        if($check == null)
+                                                                            echo "Chờ";
+                                                                        else if($check == 1)
+                                                                            echo "Thành công";
+                                                                        else echo "Hủy đơn";
+                                                                    @endphp
+                                                                </td>
+                                                                <td>
+                                                                    @php
+                                                                        echo number_format($item->quantity*$item->price).' đ';
+                                                                    @endphp
+                                                                </td>
+                                                                <td>
+                                                                    @if ($check == null)
+                                                                       <a href="#">Hủy đơn</a> 
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                        @endforeach
+                                                        @endforeach
+                                                        @endif
                                                     </tbody>
                                                 </table>
                                             </div>

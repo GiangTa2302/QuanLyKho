@@ -93,6 +93,9 @@
                             <h5 class="section-content__title">Đơn hàng của bạn</h5>
                         </div>
                         <div class="your-order-box gray-bg m-t-40 m-b-30">
+                            @php
+                                $total = 0;
+                            @endphp
                             <div class="your-order-product-info">
                                 <div class="your-order-top d-flex justify-content-between">
                                     <h6 class="your-order-top-left">Danh sách sản phẩm</h6>
@@ -105,7 +108,9 @@
                                             <span class="your-order-middle-left">{{$details['name']}} X {{$details['qty']}}</span>
                                             <span class="your-order-middle-right">
                                                 @php
-                                                    echo $details['price']*$details['qty'];
+                                                    $sum = $details['price']*$details['qty'];
+                                                    $total += $sum;
+                                                    echo $sum;
                                                 @endphp
                                             </span>
                                         </li>
@@ -113,19 +118,11 @@
                                     @endif
                                 </ul>
                                 <div class="your-order-bottom d-flex justify-content-between">
-                                    <h6 class="your-order-bottom-left">Phí vận chuyển</h6>
-                                    <span class="your-order-bottom-right">Free shipping</span>
-                                </div>
-                                <div class="your-order-total d-flex justify-content-between">
                                     <h5 class="your-order-total-left">Tổng tiền hàng</h5>
                                     <h5 class="your-order-total-right">
-                                        {{-- @if (session('cart'))
-                                            @php
-                                                $len = count(session('cart'));
-                                                for($i = 0; $i < $len; $i++)
-                                                $total += $details['price']*$details['qty'];
-                                            @endphp
-                                        @endif   --}}
+                                        @php
+                                            echo $total;
+                                        @endphp
                                     </h5>
                                 </div>
 

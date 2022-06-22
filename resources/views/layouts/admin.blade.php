@@ -43,7 +43,7 @@
 
         <nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
-				<a class="sidebar-brand" href="index.html">
+				<a class="sidebar-brand" href="{{route('admin.home')}}">
 					<span class="sidebar-brand-text align-middle">
 						<img src="{{asset('assets/admin/img/logo.png')}}" alt="">
 						<sub><small class="badge text-uppercase">Shop</small></sub>
@@ -55,77 +55,156 @@
 						<path d="M20 16L12 20L4 16"></path>
 					</svg>
 				</a>
-		
-				<div class="sidebar-user">
-					<div class="d-flex justify-content-center">
-						<div class="flex-shrink-0">
-							<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
-						</div>
-						<div class="flex-grow-1 ps-2">
-							<a class="sidebar-user-title" href="#">
-								{{Auth::user()->name}}
-								<div class="sidebar-user-subtitle">Admin</div>
-							</a>
+
+				@if(Auth::user()->is_admin == 1)
+					<div class="sidebar-user">
+						<div class="d-flex justify-content-center">
+							<div class="flex-shrink-0">
+								<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded me-1" alt="{{Auth::user()->name}}" />
+							</div>
+							<div class="flex-grow-1 ps-2">
+								<a class="sidebar-user-title" href="{{route('admin.profile')}}">
+									{{Auth::user()->name}}
+									<div class="sidebar-user-subtitle">Admin</div>
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
-		
-				<ul class="sidebar-nav">
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.home')}}">
-							<i class="align-middle" data-feather="home"></i> <span class="align-middle">Tổng quan</span>
-						</a>
-					</li>
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.sanpham')}}">
-							<i class="align-middle" data-feather="inbox"></i> <span class="align-middle">Sản phẩm</span>
-						</a>
-					</li>
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.donxuat')}}">
-							<i class="align-middle" data-feather="inbox"></i> <span class="align-middle">Đơn hàng xuất</span>
-						</a>
-					</li>
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.donnhap')}}">
-							<i class="align-middle" data-feather="inbox"></i> <span class="align-middle">Đơn hàng nhập</span>
-						</a>
-					</li>
-					<li class="sidebar-item">
-						<a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
-							<i class="align-middle" data-feather="file-minus"></i> <span class="align-middle">Đơn hàng</span>
-						</a>
-						<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.donhangnhap')}}">Đơn nhập kho </a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.donhangxuat')}}">Đơn xuất kho </a></li>
-						</ul>
-					</li>
-		
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.nhacungcap')}}">
-							<i class="align-middle" data-feather="layers"></i> <span class="align-middle">Nhà cung cấp</span>
-						</a>
-					</li>
-		
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.khachhang')}}">
-							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Khách hàng</span>
-						</a>
-					</li>
-		
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.thongke')}}">
-							<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Thống kê</span>
-						</a>
-					</li>
-		
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="{{route('admin.nhanvien')}}">
-							<i class="align-middle" data-feather="users"></i> <span class="align-middle">Nhân viên kho</span>
-						</a>
-					</li>
-				</ul>
-		
+					<ul class="sidebar-nav">
+						<li class="sidebar-item"> 
+							<a class="sidebar-link" href="{{route('admin.home')}}">
+								<i class="align-middle" data-feather="home"></i> <span class="align-middle">Tổng quan</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.danhmuc')}}">
+								<i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Danh mục sản phẩm</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
+								<i class="align-middle" data-feather="package"></i> <span class="align-middle">Sản phẩm</span>
+							</a>
+							<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+								@foreach($cate as $item)
+								<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.sanpham',['category_id'=>$item->id])}}">{{$item->name}}</a></li>
+								@endforeach
+							</ul>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.donnhap')}}">
+								<i class="align-middle" data-feather="download"></i> <span class="align-middle">Đơn hàng nhập</span> 
+								<sup style="color:red;"><b>
+								@if ($countN > 0)
+									{{$countN}}
+								@elseif ($countN > 10)
+									9+
+								@endif
+								</b></sup>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.donxuat')}}">
+								<i class="align-middle" data-feather="upload"></i> <span class="align-middle"> Đơn hàng xuất</span> 
+								<sup style="color:red;"><b>
+									@if ($countX > 0)
+										{{$countX}}
+									@elseif ($countX > 10)
+										9+
+									@endif	
+								</b></sup>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a data-bs-target="#order" data-bs-toggle="collapse" class="sidebar-link collapsed">
+								<i class="align-middle" data-feather="file-minus"></i> <span class="align-middle">Đơn hàng</span>
+							</a>
+							<ul id="order" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+								<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.donhangnhap')}}">Đơn nhập kho </a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.donhangxuat')}}">Đơn xuất kho </a></li>
+							</ul>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.nhacungcap')}}">
+								<i class="align-middle" data-feather="layers"></i> <span class="align-middle">Nhà cung cấp</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.khachhang')}}">
+								<i class="align-middle" data-feather="user"></i> <span class="align-middle">Khách hàng</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.nhanvien')}}">
+								<i class="align-middle" data-feather="users"></i> <span class="align-middle">Nhân viên kho</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.thongke')}}">
+								<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Thống kê</span>
+							</a>
+						</li>
+					</ul>
+				@elseif(Auth::user()->is_admin == 3)
+					<div class="sidebar-user">
+						<div class="d-flex justify-content-center">
+							<div class="flex-shrink-0">
+								<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded me-1" alt="{{Auth::user()->name}}" />
+							</div>
+							<div class="flex-grow-1 ps-2">
+								<a class="sidebar-user-title" href="{{route('admin.profile')}}">
+									{{Auth::user()->name}}
+									<div class="sidebar-user-subtitle">Nhân viên kho</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<ul class="sidebar-nav">
+						<li class="sidebar-item"> 
+							<a class="sidebar-link" href="{{route('admin.home')}}">
+								<i class="align-middle" data-feather="home"></i> <span class="align-middle">Tổng quan</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.donnhap')}}">
+								<i class="align-middle" data-feather="download"></i> <span class="align-middle">Đơn hàng nhập</span> 
+								<sup style="color:red;"><b>
+								@if ($countN > 0)
+									{{$countN}}
+								@elseif ($countN > 10)
+									9+
+								@endif
+								</b></sup>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.donxuat')}}">
+								<i class="align-middle" data-feather="upload"></i> <span class="align-middle"> Đơn hàng xuất</span> 
+								<sup style="color:red;"><b>
+									@if ($countX > 0)
+										{{$countX}}
+									@elseif ($countX > 10)
+										9+
+									@endif	
+								</b></sup>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
+								<i class="align-middle" data-feather="file-minus"></i> <span class="align-middle">Đơn hàng</span>
+							</a>
+							<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+								<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.donhangnhap')}}">Đơn nhập kho </a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.donhangxuat')}}">Đơn xuất kho </a></li>
+							</ul>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="{{route('admin.thongke')}}">
+								<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Thống kê</span>
+							</a>
+						</li>
+					</ul>
+				@endif
 			</div>
 		</nav>
 
@@ -137,52 +216,12 @@
 			
 				<form class="d-none d-sm-inline-block">
 					<div class="input-group input-group-navbar">
-						<input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+						<input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Search">
 						<button class="btn" type="button">
 							<i class="align-middle" data-feather="search"></i>
 						</button>
 					</div>
 				</form>
-			
-				<ul class="navbar-nav d-none d-lg-block">
-					<li class="nav-item px-2 dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false">
-							Chọn kho
-						</a>
-						<div class="dropdown-menu dropdown-menu-start dropdown-mega" aria-labelledby="servicesDropdown">
-							<div class="d-md-flex align-items-start justify-content-start">
-								<div class="dropdown-mega-list">
-									<div class="dropdown-header">Hà Nội</div>
-									<a class="dropdown-item" href="#">Kho số 1</a>
-									<a class="dropdown-item" href="#">Kho số 2</a>
-									<a class="dropdown-item" href="#">Kho số 3</a>
-									<a class="dropdown-item" href="#">Kho số 4</a>
-									<a class="dropdown-item" href="#">Kho số 5</a>
-									<a class="dropdown-item" href="#">Kho số 6</a>
-									<a class="dropdown-item" href="#">Kho số 7</a>
-								</div>
-								<div class="dropdown-mega-list">
-									<div class="dropdown-header">Đà Nẵng</div>
-									<a class="dropdown-item" href="#">Kho số 1</a>
-									<a class="dropdown-item" href="#">Kho số 2</a>
-									<a class="dropdown-item" href="#">Kho số 3</a>
-									<a class="dropdown-item" href="#">Kho số 4</a>
-									<a class="dropdown-item" href="#">Kho số 5</a>
-								</div>
-								<div class="dropdown-mega-list">
-									<div class="dropdown-header">TP Hồ Chí Minh</div>
-									<a class="dropdown-item" href="#">Kho số 1</a>
-									<a class="dropdown-item" href="#">Kho số 2</a>
-									<a class="dropdown-item" href="#">Kho số 3</a>
-									<a class="dropdown-item" href="#">Kho số 4</a>
-									<a class="dropdown-item" href="#">Kho số 5</a>
-									<a class="dropdown-item" href="#">Kho số 6</a>
-								</div>
-							</div>
-						</div>
-					</li>
-				</ul>
 			
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
@@ -195,7 +234,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
 								<div class="dropdown-menu-header">
-									4 New Notifications
+									4 Thông báo
 								</div>
 								<div class="list-group">
 									<a href="#" class="list-group-item">
@@ -331,7 +370,7 @@
 								<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded" alt="Charles Hall" />
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
+								<a class="dropdown-item" href="{{route('admin.profile')}}"><i class="align-middle me-1" data-feather="user"></i> Cá nhân</a>
 								<div class="dropdown-divider"></div>
 								
 								<a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
@@ -352,7 +391,7 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a href="index-2.html" class="text-muted"><strong>Group 3</strong></a> &copy;
+								<a href="{{route('admin.home')}}" class="text-muted"><strong>Group 3</strong></a> &copy;
 							</p>
 						</div>
 						<div class="col-6 text-end">

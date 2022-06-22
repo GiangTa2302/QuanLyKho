@@ -22,5 +22,7 @@ class Order extends Model
         'email',
         'note',
         'total',
+        'is_check',
+        'typeOrder'
     ];
 }

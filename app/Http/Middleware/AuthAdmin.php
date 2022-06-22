@@ -16,7 +16,7 @@ class AuthAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(session('is_admin') === 1){
+        if(session('is_admin') === 1 || session('is_admin') === 3){
             return $next($request);
         }
         else{

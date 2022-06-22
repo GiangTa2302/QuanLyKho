@@ -79,6 +79,7 @@
 						<table id="datatables-buttons" class="table table-striped" style="width:100%">
 							<thead>
 								<tr>
+									<th>STT</th>
 									<th>Tên khách hàng</th>
 									<th>Địa chỉ</th>
 									<th>Số điện thoại</th>
@@ -88,9 +89,13 @@
 								</tr>
 							</thead>
 							<tbody>
+								@php
+									$stt = 1;
+								@endphp
 								@if(!empty($users))
 									@foreach ($users as $user)
 									<tr id="uid{{$user->id}}">
+										<td>{{$stt++}}</td>
 										<td>{{$user->name}}</td>
 										<td>{{$user->address}}</td>
 										<td>{{$user->phone}}</td>
@@ -99,10 +104,13 @@
 											<img src="{{asset('storage/users/'.$user->image)}}" alt="" width="50px" height="50px">
 										</td>
 										<td> 
-											<a href="#" id="{{$user->id}}" class="editIcon" data-bs-toggle="modal" data-bs-target="#EditUserModel">
+											@php
+												$id = $user->id;
+											@endphp
+											<a href="#" onclick="updateUser({{$id}})" data-bs-toggle="modal" data-bs-target="#EditUserModel{{$id}}">
 												<i class="align-middle" data-feather="edit-2"></i>
 											</a>
-											<div class="modal fade" id="EditUserModel" tabindex="-1" role="dialog" aria-hidden="true">
+											<div class="modal fade" id="EditUserModel{{$id}}" tabindex="-1" role="dialog" aria-hidden="true">
 												<div class="modal-dialog" role="document">
 													<div class="modal-content">
 														<div class="col-md-12">
@@ -112,35 +120,34 @@
 																	<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
 																</div>
 																<div class="card-body">
-																	<form id="EditUserForm" enctype="multipart/form-data">
+																	<form id="EditUserForm{{$id}}" enctype="multipart/form-data">
 																		@csrf
-																		<input type="hidden" name="id" id="id">
-																		<input type="hidden" name="user_image" id="user_image">
+																		<input type="hidden" name="id" id="id" value="{{$user->id}}">
 																		<div class="mb-3">
-																			<label class="form-label" for="name">Họ tên</label>
-																			<input type="text" class="form-control" id="edit_name" name="name" >
+																			<label class="form-label" >Họ tên</label>
+																			<input type="text" class="form-control" id="edit_name" name="name" value="{{$user->name}}">
 																		</div>
 																		<div class="mb-3">
-																			<label class="form-label" for="inputAddress">Địa chỉ</label>
-																			<input type="text" class="form-control" id="edit_address" name="address">
+																			<label class="form-label">Email</label>
+																			<input type="email" class="form-control" id="edit_email" name="email" value="{{$user->email}}">
+																		</div>
+																		<div class="mb-3">
+																			<label class="form-label">Địa chỉ</label>
+																			<input type="text" class="form-control" id="edit_address" name="address" value="{{$user->address}}">
 																		</div>
 																		<div class="row">
 																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="phone">Số điện thoại</label>
-																				<input type="text" class="form-control" id="edit_phone" name="phone">
+																				<label class="form-label">Số điện thoại</label>
+																				<input type="text" class="form-control" id="edit_phone" name="phone" value="{{$user->phone}}">
 																			</div>
 																			<div class="mb-3 col-md-6">
-																				<label class="form-label" for="image">Ảnh</label>
-																				<input type="file" class="form-control" name="image">
+																				<label class="form-label">Ảnh</label>
+																				<input type="file" class="form-control" name="image" value="{{$user->image}}">
 																			</div>
-																			<div class="mb-3" id="edit_image"></div>
+																			<div class="mb-3" id="edit_image">
+																				<img src="{{asset('storage/users/'.$user->image)}}" alt="" width="50px" height="50px">
+																			</div>
 																		</div>
-																		
-																		<div class="row">
-																			<label class="form-label" for="email">Email</label>
-																			<input type="email" class="form-control" id="edit_email" name="email">
-																		</div>
-																		
 																		<div class="mb-3 text-center">
 																			<button type="submit" class="btn btn-primary text-center">Cập nhật</button>
 																		</div>
@@ -151,7 +158,7 @@
 													</div>
 												</div>
 											</div>
-											<a href="javascript:void(0)" onclick="deleteUser({{$user->id}})" class="deleteIcon">
+											<a href="javascript:void(0)" onclick="deleteUser({{$id}})" class="deleteIcon">
 												<i class="align-middle text-danger" data-feather="trash-2"></i>
 											</a>
 										</td>
@@ -173,56 +180,35 @@
 </main>
 
 <script>
+	function updateUser(id){
+		$('#EditUserForm'+id).submit(function(e){
+			e.preventDefault();
 
-	//edit
-	$(document).on('click', '.editIcon', function(e){
-		e.preventDefault();
-
-		let id = $(this).attr('id');
-		
-		$.ajax({
-			url: 'khach-hang/'+id,
-			data: {
-				id: id,
-            	_token: '{{ csrf_token() }}'
-			},
-			success: function(response){
-				$('#id').val(response.id);
-				$('#edit_name').val(response.name);
-				$('#edit_address').val(response.address);
-				$('#edit_phone').val(response.phone);
-				$('#edit_email').val(response.email);
-				$('#edit_image').html(`<img src="{{asset('storage/users/${response.image}')}}" alt="" width="50px" height="50px">`);
-				$("#user_image").val(response.image);
-				
-			}
-		})
-	});
-
-	//upload
-	$('#EditUserForm').submit(function(e){
-		e.preventDefault();
-		const formData = new FormData($('#EditUserForm')[0]);
-		
-		$.ajax({
-			url: "{{route('admin.updateUser')}}",
-			method :"POST",
-			data: formData,
-			cache: false,
-			processData: false,
-			contentType: false,
-			dataType: 'json',
-			success: function(response){
-				console.log(response);
-				if(response.status == 200){
-					$('#EditUserForm')[0].reset();
-					$('#EditUserModel').modal('hide');
-					location.reload();
-					alert("Sửa nhân viên thành công!");
+			const formData = new FormData($('#EditUserForm'+id)[0]);
+			
+			$.ajax({
+				url: "{{route('admin.updateUser')}}",
+				method :"POST",
+				data: formData,
+				cache: false,
+				processData: false,
+				contentType: false,
+				dataType: 'json',
+				success: function(response){
+					console.log(response);
+					if(response.status == 200){
+						$('#EditUserForm'+id)[0].reset();
+						$('#EditUserModel'+id).modal('hide');
+						location.reload();
+						alert("Sửa khách hàng thành công!");
+					}
 				}
-			}
+			});
 		});
-	});
+	}
+</script>
+
+<script>
 
 	$('#AddUserForm').submit(function(e){
 		e.preventDefault();
@@ -239,10 +225,8 @@
 					$('#AddUserForm')[0].reset();
 					$('#AddUserModel').modal('hide');
 					location.reload();
-					alert("Thêm nhân viên kho mới thành công!");
+					alert("Thêm khách hàng mới thành công!");
 				}
-
-				
 			}
 		});
 	});
@@ -251,7 +235,7 @@
 
 <script>
 	function deleteUser(id){
-		if(confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")){
+		if(confirm("Bạn có chắc chắn muốn xóa khách hàng này không?")){
 			$.ajax({
 				url:'khach-hang/'+id,
 				type:'DELETE',

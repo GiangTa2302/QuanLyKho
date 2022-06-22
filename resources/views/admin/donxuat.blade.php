@@ -24,13 +24,21 @@
 								@foreach ($orders as $order)
 									<tr>
 										<td>{{$order->id}}</td>
-										<td>{{$order->created_at}}</td>
-										<td>{{$order->name}}</td>
-										<td>{{$order->address}}, {{$order->provice}}, {{$order->city}}</td>
-										<td>{{$order->total}}</td>
 										<td>
-											<a href="{{route('admin.xacnhan',['id'=>$order->id])}}">Xác nhận</a>
-											<a href="{{route('admin.huy',['id'=>$order->id])}}">Hủy</a>
+											@php
+												echo date('d-m-Y', strtotime($order->created_at));
+											@endphp
+										</td>
+										<td>{{$order->name}}</td>
+										<td>{{$order->address}}, {{$order->province}}, {{$order->city}}</td>
+										<td>
+											@php
+												echo number_format($order->total).' đ';
+											@endphp
+										</td>
+										<td>
+											<a href="{{route('admin.xacnhan',['id'=>$order->id, 'role'=>Auth::user()->name])}}">Xác nhận</a>
+											<a href="{{route('admin.huy',['id'=>$order->id, 'role'=>Auth::user()->name])}}">Hủy</a>
 										</td>
 									</tr>
 								@endforeach

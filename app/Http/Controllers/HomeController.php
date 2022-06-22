@@ -13,19 +13,46 @@ class HomeController extends Controller
     
     public function __construct(){
         $this->data['isAdmin'] = false;
-        $this->data['cats'] = Category::all();
-        $this->data['products'] = Product::all();
+        $products = Product::all();
+        $pros = array();
+        $i = 0;
+        $date = date('Y-m-d');
+        foreach ($products as $item) {
+            $tgBQ = $item->tgBaoQuan;
+            if(strtotime($tgBQ) > strtotime($date)){
+                $pros[$i] = $item;
+                $i++;
+            }
+        }
+        $this->data['products'] = $pros;
+
+        $products = Product::orderBy('created_at','DESC')
+                    ->take(8)->get();
+        $pros1 = array();
+        $i = 0;
+        foreach ($products as $item) {
+            $tgBQ = $item->tgBaoQuan;
+            if(strtotime($tgBQ) > strtotime($date)){
+                $pros1[$i] = $item;
+                $i++;
+            }
+        }
+        $this->data['newProduct'] =  $pros1;
+        
+        $cats = Category::all();
+        session()->put('cats',$cats);
     }
 
     public function index(){
         $this->data['layout'] = 'clients.main';
-
+        
         return view('homeMain', $this->data);
     }
 
     public function contact(){
         $this->data['layout'] = 'clients.contact';
-
+        
+        // dd(session('cats'));
         return view('homeMain', $this->data);
     }
 

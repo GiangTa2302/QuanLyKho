@@ -18,15 +18,16 @@ class CreateProductsTable extends Migration
             $table->string('tenSP');
             $table->string('DVT');
             $table->string('mauSac');
-            $table->decimal('regular_price')->nullable()->default(0);
-            $table->decimal('sale_price')->nullable();
+            $table->decimal('giaNhap', 20, 2)->default(0);
+            $table->decimal('giaXuat', 20, 2)->default(0);
             $table->timestamp('tgBaoQuan')->nullable();
             $table->text('description');
-            $table->string('image');
+            $table->integer('quantity')->default(0);
+            $table->string('image')->nullable()->default("1652787335.jpg");
             $table->text('images')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

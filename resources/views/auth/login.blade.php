@@ -54,14 +54,13 @@
             <form action="{{route('login')}}" method="POST">
                 @csrf
                 <div class="form-box__single-group">
-                    <label class="form-label" >Email</label>
+                    <label class="form-label">Email</label>
                     <input type="email" id="form-username" name="email" placeholder="Email" value="{{old('email')}}" required autofocus >
                     
                 </div>
                 <div class="form-box__single-group">
                     <label class="form-label" >Mật khẩu</label>
                     <input type="password" id="form-username-password" name="password" placeholder="*******"  value="{{old('password')}}" required autocomplete="current-password" >
-                    
                 </div>
                 <div class="d-flex justify-content-between flex-wrap m-tb-20">
                     <label for="account-remember">
@@ -70,7 +69,6 @@
                     </label>
                     <a class="link--gray" href="{{route('password.request')}}">Forgot Password?</a>
                 </div>
-                
                 <div class="text-center">
                     <button class="btn btn--box btn--small btn--blue btn--uppercase btn--weight" type="submit">LOGIN</button>
                 </div>

@@ -8,7 +8,7 @@
                             <div class="col-md-6">
                                 <div class="product-gallery-box m-b-60">
                                     <div class="product-image--large overflow-hidden">
-                                        <img class="img-fluid" id="img-zoom" src="{{asset('storage/products/'.$pro->image)}}" data-zoom-image="{{asset('storage/products/'.$pro->image)}}" alt="">
+                                        <img class="img-fluid" id="img-zoom" src="{{asset('storage/products/'.$pro->image)}}" data-zoom-image="{{asset('storage/products/'.$pro->image)}}" alt="" width="300" height="700">
                                     </div>
                                     <div class="pos-relative m-t-30">
                                         <div id="gallery-zoom" class="product-image--thumb product-image--thumb-horizontal overflow-hidden swiper-outside-arrow-hover m-lr-30">
@@ -40,41 +40,95 @@
                                             <li class="product__review--fill"><i class="icon-star"></i></li>
                                             <li class="product__review--blank"><i class="icon-star"></i></li>
                                         </ul>
-                                        <a href="#product-review" class="link--gray link--icon-left  m-b-5"><i class="fal fa-comment-dots"></i>Read reviews (1) </a>
-                                        <a href="#modalReview" data-toggle="modal" class="link--gray link--icon-left m-b-5"><i class="fal fa-edit"></i> Write a review</a>
+                                        <a href="#product-review" class="link--gray link--icon-left  m-b-5"><i class="fal fa-comment-dots"></i>Đọc đánh giá (1) </a>
+                                        <a href="#modalReview" data-toggle="modal" class="link--gray link--icon-left m-b-5"><i class="fal fa-edit"></i> Viết đánh giá</a>
                                     </div>
-                                    <div class="product__price">
-                                        <span class="product__price-del">{{$pro->regular_price}}</span>
-                                        <span class="product__price-reg">{{$pro->sale_price}}</span>
-                                    </div>
-                                    <div class="product__desc m-t-25 m-b-30">
-                                        <p>{{$pro->description}}</p>
-                                    </div>
-                                    <div class="product-var p-t-30">
-                                        <div class="product-color product-var__item">
-                                            <span class="product-var__text">Màu sắc: {{$pro->mauSac}}</span>
-                                            {{-- <div class="color-filter ">
-                                                <label class="product-color"><input name="product-color-select" type="radio" class="product-color-select" value="color-red"><span></span></label>
-                                                <label class="product-color" ><input name="product-color-select" type="radio" class="product-color-select"   value="color-green" checked><span></span></label>
-                                                <label class="product-color" ><input name="product-color-select" type="radio" class="product-color-select"   value="color-blue"><span></span></label>
-                                            </div> --}}
+                                    @if(Route::has('login'))
+                                    @auth
+                                    @if(Auth::user()->is_admin == 0)
+                                        <div class="product__price">
+                                            <span class="product__price-reg">{{$pro->giaXuat}}</span>
                                         </div>
-                                        <div class="product-quantity product-var__item">
-                                            <span class="product-var__text">Quantity</span>
-                                            <div class="product-quantity-box">
-                                                <div class="quantity">
-                                                    <input type="number" min="1" max="9" step="1" value="1">
-                                                </div>
-                                                <a href="{{route('user.addcart',['id'=>$pro->id])}}" class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-l-20" >
-                                                Thêm vào giỏ hàng
-                                                </a>
+                                        <div class="product__desc m-t-25 m-b-30">
+                                            <p>{{$pro->description}}</p>
+                                        </div>
+                                        <div class="product-var p-t-30">
+                                            <div class="product-color product-var__item">
+                                                <span class="product-var__text">Màu sắc: {{$pro->mauSac}}</span>
                                             </div>
-                                           
+                                            <div class="product-quantity product-var__item">
+                                                <span class="product-var__text">Số lượng</span>
+                                                <div class="product-quantity-box">
+                                                    <div class="quantity">
+                                                        <input type="number" min="1" max="9" step="1" value="1">
+                                                    </div>
+                                                    @if($pro->quantity > 0)
+                                                        <a href="{{route('user.addcart',['id'=>$pro->id, 'role'=>Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-l-20" >
+                                                            Thêm vào giỏ hàng
+                                                        </a>
+                                                        <a href="{{route('user.checkout')}}" class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-l-20" >
+                                                            Mua ngay
+                                                        </a>
+                                                    @else
+                                                        <a href="" class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-l-20" >
+                                                            Hết hàng
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @elseif(Auth::user()->is_admin == 2)
+                                        <div class="product__price">
+                                            <span class="product__price-reg">{{$pro->giaNhap}}</span>
+                                        </div>
+                                        <div class="product__desc m-t-25 m-b-30">
+                                            <p>{{$pro->description}}</p>
+                                        </div>
+                                        <div class="product-var p-t-30">
+                                            <div class="product-color product-var__item">
+                                                <span class="product-var__text">Màu sắc: {{$pro->mauSac}}</span>
+                                            </div>
+                                            <div class="product-quantity product-var__item">
+                                                <span class="product-var__text">Số lượng</span>
+                                                <div class="product-quantity-box">
+                                                    <div class="quantity">
+                                                        <input type="number" min="1" max="9" step="1" value="1">
+                                                    </div>
+                                                    <a href="{{route('user.addcart',['id'=>$pro->id, 'role'=>Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-l-20" >
+                                                    Thêm vào giỏ hàng
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @else
+                                        <div class="product__price">
+                                            <span class="product__price-reg">{{$pro->giaNhap}}</span>
+                                        </div>
+                                        <div class="product__desc m-t-25 m-b-30">
+                                            <p>{{$pro->description}}</p>
+                                        </div>
+                                        <div class="product-var p-t-30">
+                                            <div class="product-color product-var__item">
+                                                <span class="product-var__text">Màu sắc: {{$pro->mauSac}}</span>
+                                            </div>
+                                            <div class="product-quantity product-var__item">
+                                                <span class="product-var__text">Số lượng</span>
+                                                <div class="product-quantity-box">
+                                                    <div class="quantity">
+                                                        <input type="number" min="1" max="9" step="1" value="1">
+                                                    </div>
+                                                    <a href="{{route('login')}}" class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-l-20" >
+                                                    Thêm vào giỏ hàng
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
                                     <div class="product-links ">
                                         <div class="product-social m-tb-30">
-                                            <span>Share</span>
+                                            <span>Chia sẻ</span>
                                             <ul class="product-social-link">
                                                 <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                                                 <li><a href="#"><i class="fab fa-twitter"></i></a></li>
@@ -82,7 +136,6 @@
                                                 <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
                                             </ul>
                                         </div>
-                                        <a href="wishlist.html" class="link--gray link--icon-left shop__wishlist-icon m-b-5"><i class="icon-heart"></i>Add To Wishlist</a>
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +151,7 @@
                                 <div class="section-content--border">
                                     <ul class="tablist tablist--style-black tablist--style-title tablist--style-gap-70 nav">
                                         <li><a class="nav-link active" data-toggle="tab" href="#product-desc">Mô tả sản phẩm</a></li>
-                                        <li><a class="nav-link" data-toggle="tab" href="#product-review">Reviews</a></li>
+                                        <li><a class="nav-link" data-toggle="tab" href="#product-review">Đánh giá</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -209,7 +262,6 @@
                 </div>  <!-- End Product Details Tab -->
 
                 <div class="col-12">
-                    <!-- ::::::  Start  Product Style - Default Section  ::::::  -->
                     <div class="product product--1 swiper-outside-arrow-hover">
                         <div class="row">
                             <div class="col-12">
@@ -223,35 +275,95 @@
                                 <div class="swiper-outside-arrow-fix pos-relative">
                                     <div class="product-default-slider-5grid overflow-hidden  m-t-50">
                                         <div class="swiper-wrapper">
-                                            @foreach ($products as $pro)
-                                            @if ($pro->category_id == $cat->id)
-                                            <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
-                                                <div class="product__img-box">
-                                                    <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
-                                                        <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="">
-                                                    </a>
-
-                                                    <a href="{{route('user.addcart',['id'=>$pro->id])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn" >
-                                                        Thêm vào giỏ hàng
-                                                    </a>
-                                                    <span class="product__tag product__tag--discount">
-                                                        @php
-                                                            $discount = ($pro->regular_price - $pro->sale_price)/$pro->sale_price * 100;
-                                                            echo number_format($discount,2)."%";
-                                                        @endphp
-                                                    </span>
-                                                    <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                                </div>
-                                                <div class="product__price m-t-10">
-                                                    <span class="product__price-del">{{$pro->regular_price}}₫</span>
-                                                    <span class="product__price-reg">{{$pro->sale_price}}₫</span>
-                                                </div>
-                                                <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
-                                                    {{$pro->tenSP}}
-                                                </a>
-                                            </div>
+                                            @if(Route::has('login'))
+                                            @auth
+                                                    @if(Auth::user()->is_admin == 0)
+                                                        @foreach ($products as $prod)
+                                                            @if ($prod->category_id == $pro->category_id)
+                                                                <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                                    <div class="product__img-box">
+                                                                        <a href="{{route('detailProduct',['id'=>$prod->id])}}" class="product__img--link">
+                                                                            <img class="product__img" src="{{asset('storage/products/'.$prod->image)}}" alt="" height="200">
+                                                                        </a>
+                                                                        @if($prod->quantity == 0)
+                                                                        <a href="" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn" >
+                                                                            Hết hàng
+                                                                        </a>
+                                                                        @else
+                                                                        <a href="{{route('user.addcart',['id'=>$prod->id, 'role'=>Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                                            Thêm vào giỏ hàng
+                                                                        </a>
+                                                                        @endif
+                                                                        <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                                            @php
+                                                                                echo date('m/Y', strtotime($prod->tgBaoQuan));
+                                                                            @endphp
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="product__price m-t-10">
+                                                                        <span class="product__price-reg">{{$prod->giaXuat}}₫</span>
+                                                                    </div>
+                                                                    <a href="{{route('detailProduct',['id'=>$prod->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                                        {{$prod->tenSP}}
+                                                                    </a>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($products as $prod)
+                                                            @if ($prod->category_id == $pro->category_id)
+                                                                <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                                    <div class="product__img-box">
+                                                                        <a href="{{route('detailProduct',['id'=>$prod->id])}}" class="product__img--link">
+                                                                            <img class="product__img" src="{{asset('storage/products/'.$prod->image)}}" alt="" height="200">
+                                                                        </a>
+                                                                        <a href="{{route('user.addcart',['id'=>$prod->id, 'role'=>Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                                            Thêm vào giỏ hàng
+                                                                        </a>
+                                                                        <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                                            @php
+                                                                                echo date('m/Y', strtotime($prod->tgBaoQuan));
+                                                                            @endphp
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="product__price m-t-10">
+                                                                        <span class="product__price-reg">{{$prod->giaNhap}}₫</span>
+                                                                    </div>
+                                                                    <a href="{{route('detailProduct',['id'=>$prod->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                                        {{$prod->tenSP}}
+                                                                    </a>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                            @else
+                                                @foreach ($products as $prod)
+                                                    @if ($prod->category_id == $pro->category_id)
+                                                        <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                            <div class="product__img-box">
+                                                                <a href="{{route('detailProduct',['id'=>$prod->id])}}" class="product__img--link">
+                                                                    <img class="product__img" src="{{asset('storage/products/'.$prod->image)}}" alt="" height="200">
+                                                                </a>
+                                                                <a href="{{route('login')}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                                    Thêm vào giỏ hàng
+                                                                </a>
+                                                                <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                                    @php
+                                                                        echo date('m/Y', strtotime($prod->tgBaoQuan));
+                                                                    @endphp
+                                                                </span>
+                                                            </div>
+                                                            <div class="product__price m-t-10">
+                                                                <span class="product__price-reg">{{$prod->giaXuat}}₫</span>
+                                                            </div>
+                                                            <a href="{{route('detailProduct',['id'=>$prod->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                                {{$prod->tenSP}}
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                                @endif
                                             @endif
-                                            @endforeach
                                         </div>
                                         <div class="swiper-buttons">
                                             <!-- Add Arrows -->

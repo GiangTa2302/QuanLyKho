@@ -68,7 +68,6 @@
                 <div class="form-box__single-group">
                     <label class="form-label" >Họ tên</label>
                     <input type="text" id="form-register-username" name="name" placeholder="Nhập họ tên" value="{{old('name')}}" >
-                    
                 </div>
                 <div class="form-box__single-group">
                     <label class="form-label" >Email</label>
@@ -100,6 +99,9 @@
                         <option value="0">Khách hàng</option>
                         <option value="2">Nhà cung cấp</option>
                     </select>
+                </div>
+                <div>
+                    <input type="hidden" name="image" value="1652787335.jpg">
                 </div>
                 <div class="text-center">
                     <button class="btn btn--box btn--small btn--blue btn--uppercase btn--weight" type="submit">REGISTER</button>

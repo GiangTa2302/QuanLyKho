@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -12,7 +16,13 @@ class UserController extends Controller
     public $data = [];
 
     public function __construct(){
+        $cats = Category::all();
         
+        session()->put('cats',$cats);
+
+        $this->data['countN'] = DB::table('orders')->where('is_check','=',NULL)->where('typeOrder','=','nhap')->count();
+        $this->data['countX'] = DB::table('orders')->where('is_check','=',NULL)->where('typeOrder','=','xuat')->count();
+        $this->data['cate'] = Category::all();
     }
 
     public function index(Request $request){
@@ -54,12 +64,6 @@ class UserController extends Controller
         ]);
     }
 
-    //get user by id
-    public function getUserById($id){
-        $user = User::find($id);
-        return response()->json($user);
-    }
-
     //upload user by id
     public function uploadUser(Request $request){
         $fileName = '';
@@ -73,7 +77,7 @@ class UserController extends Controller
 				Storage::delete('public/users/' . $user->image);
 			}
 		} else {
-			$fileName = $request->user_image;
+			$fileName = $user->image;
 		}
 
 		$userData = [
@@ -97,15 +101,24 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['success'=>'Xóa bản ghi thành công!']);
     }
-
-    public function getDetailUser($id){
+    
+    //get user by id
+    public function getUserById($id){
         $this->data['layout'] = 'clients.myAccount';
         $this->data['isAdmin'] = false;
 
-        $cats = Category::all();
         $user = User::find($id);
+        $orders = Order::where('user_id', $id)->get();
         
-        return view('homeMain', $this->data, compact('cats','user'));
+        $orderItems = null;
+        $pros = Product::all();
+        $check = null;
+        foreach ($orders as $key => $value) {
+            $orderItems = OrderItem::where('order_id',$value->id)->get();
+            $check = $value->is_check;
+        }
+        
+        return view('homeMain', $this->data, compact('user', 'check','orderItems', 'pros'));
     }
 
 }

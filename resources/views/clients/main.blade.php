@@ -4,7 +4,7 @@
         <div class="hero hero-slider hero--1">
             <div class="swiper-wrapper">
                 <!-- Start Hero Image -->
-                <div class="hero-img hero-img--1 swiper-slide" style="background-image: url(assets/clients/img/hero/hero-home-1-img-1.jpg);">
+                <div class="hero-img hero-img--1 swiper-slide" style="background-image: url(assets/clients/img/hero/home1.png);">
                     <div class="hero__content">
                         <div class="container">
                             <div class="row">
@@ -19,7 +19,7 @@
                     </div>
                 </div> <!-- End Hero Image -->
                 <!-- Start Hero Image -->
-                <div class="hero-img hero-img--1 swiper-slide" style="background-image: url(assets/clients/img/hero/hero-home-1-img-2.jpg);">
+                <div class="hero-img hero-img--1 swiper-slide" style="background-image: url(assets/clients/img/hero/home2.jpg);">
                     <div class="hero__content">
                         <div class="container">
                             <div class="row">
@@ -34,7 +34,7 @@
                     </div>
                 </div> <!-- End Hero Image -->
                 <!-- Start Hero Image -->
-                <div class="hero-img hero-img--1 swiper-slide" style="background-image: url(assets/clients/img/hero/hero-home-1-img-3.jpg);">
+                <div class="hero-img hero-img--1 swiper-slide" style="background-image: url(assets/clients/img/hero/home3.jpg);">
                     <div class="hero__content">
                         <div class="container">
                             <div class="row">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                </div> <!-- End Hero Image -->
+                </div> <!-- End Hero Image --> 
             </div>
 
             <!-- Add Pagination -->
@@ -123,21 +123,21 @@
                     <div class="col-md-3 col-12">
                         <div class="banner__box">
                             <a href="#" class="banner__link">
-                                <img src="assets/clients/img/banner/banner-home-1-img-1.jpg" alt="" class="banner__img">
+                                <img src="assets/clients/img/banner/home4.jpg" alt="" class="banner__img" width="270" height="270">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="banner__box">
                             <a href="#" class="banner__link">
-                                <img src="assets/clients/img/banner/banner-home-1-img-2.jpg" alt="" class="banner__img">
+                                <img src="assets/clients/img/banner/home6.jpg" alt="" class="banner__img" width="570" height="270">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3 col-12">
                         <div class="banner__box">
                             <a href="#" class="banner__link">
-                                <img src="assets/clients/img/banner/banner-home-1-img-3.jpg" alt="" class="banner__img">
+                                <img src="assets/clients/img/banner/home5.jpg" alt="" class="banner__img" width="270" height="270">
                             </a>
                         </div>
                     </div>
@@ -160,196 +160,31 @@
                         <div class="swiper-outside-arrow-fix pos-relative">
                             <div class="product-counter-slider overflow-hidden m-t-50">
                                 <div class="swiper-wrapper">
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-1.jpg" alt="">
-                                            </a>
+                                    @php
+                                        $tomorrow = mktime(0, 0, 0, date("m") , date("d")+1, date("Y"));
+                                        $time = date('Y/m/d', $tomorrow);
+                                    @endphp
+                                    @foreach ($newProduct as $pro)
+                                        <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
+                                            <div class="product__img-box">
+                                                <a href="#" class="product__img--link">
+                                                    <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="">
+                                                </a>
 
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
+                                                <div class="product__counter-box">
+                                                    <div class="product__counter-item" data-countdown="{{$time}}"></div>
+                                                </div>
+                                                <span class="product__tag product__tag--new">New</span>
+                                            
                                             </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-2.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
+                                            <div class="product__price m-t-10">
+                                                <span class="product__price-reg">{{$pro->giaXuat}}</span>
                                             </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-3.jpg" alt="">
+                                            <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
+                                                {{$pro->tenSP}}
                                             </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
                                         </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-4.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-5.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-6.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-7.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/img/product/size-normal/product-home-1-img-8.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-                                    <!-- Start Single Counter Product -->
-                                    <div class="product__box product__box--counter product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="#" class="product__img--link">
-                                                <img class="product__img" src="assets/clients/clients/img/product/size-large/product-home-1-lg-img-1.jpg" alt="">
-                                            </a>
-
-                                            <div class="product__counter-box">
-                                                <div class="product__counter-item" data-countdown="2021/03/01"></div>
-                                            </div>
-                                            <span class="product__tag product__tag--new">New</span>
-                                            <a href="wishlist.html" class="product__wishlist-icon"><i class="icon-heart"></i></a>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">$11.90</span>
-                                            <span class="product__price-reg">$10.71</span>
-                                        </div>
-                                        <a href="#" class="product__link product__link--underline product__link--weight-regular m-t-15">
-                                            SonicFuel Wireless Over-Ear Headphones
-                                        </a>
-                                    </div> <!-- End Single Counter Product -->
-
+                                    @endforeach
                                 </div>
                                 <div class="swiper-buttons">
                                     <!-- Add Arrows -->
@@ -362,56 +197,129 @@
                 </div>
             </div>
         </div> <!-- ::::::  End Product-Style - Counter Section  ::::::  -->
-        @foreach ($cats as $cat)
+        @foreach (session('cats') as $key => $value)
         <div class="product product--1 swiper-outside-arrow-hover">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="section-content section-content--border d-flex align-items-center justify-content-between">
-                            <h5 class="section-content__title">{{$cat->name}}</h5>
-                            <a href="{{route('listProduct',['id'=>$cat->id])}}">Tất cả sản phẩm<i class="icon-chevron-right"></i></a>
+                            <h5 class="section-content__title">{{$value->name}}</h5>
+                            <a href="{{route('listProduct',['id'=>$value->id])}}">Tất cả sản phẩm<i class="icon-chevron-right"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="swiper-outside-arrow-fix pos-relative">
-                            @foreach ($products as $pro)
                             <div class="product-default-slider-5grid overflow-hidden  m-t-50">
                                 <div class="swiper-wrapper">
-                                    @if ($pro->category_id == $cat->id)
-                                    <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
-                                                <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="">
-                                            </a>
-                                            <a href="{{route('user.addcart',['id'=>$pro->id])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
-                                                Thêm vào giỏ hàng
-                                            </a>
-                                            <span class="product__tag product__tag--discount" style="font-size: 10px;">
-                                                @php
-                                                    $discount = ($pro->regular_price - $pro->sale_price)/$pro->regular_price * 100;
-                                                    echo number_format($discount,2)."%";
-                                                @endphp
-                                            </span>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-del">{{$pro->regular_price}}₫</span>
-                                            <span class="product__price-reg">{{$pro->sale_price}}₫</span>
-                                        </div>
-                                        <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
-                                            {{$pro->tenSP}}
-                                        </a>
-                                    </div>
+                                {{-- @if (Auth::user()->is_admin == 2) --}}
+                                    @if(Route::has('login'))
+                                        @auth
+                                            @if(Auth::user()->is_admin == 0)
+                                                @foreach ($products as $pro)
+                                                    @if ($pro->category_id == $value->id)
+                                                        <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                            <div class="product__img-box">
+                                                                <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
+                                                                    <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
+                                                                </a>
+                                                                @if($pro->quantity == 0)
+                                                                <a href="" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn" >
+                                                                    Hết hàng
+                                                                </a>
+                                                                @else
+                                                                <a href="{{route('user.addcart',['id'=>$pro->id, 'role'=>Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                                    Thêm vào giỏ hàng
+                                                                </a>
+                                                                @endif
+                                                                <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                                    @php
+                                                                        echo date('m/Y', strtotime($pro->tgBaoQuan));
+                                                                    @endphp
+                                                                </span>
+                                                            </div>
+                                                            <div class="product__price m-t-10">
+                                                                {{-- <span class="product__price-del">0₫</span> --}}
+                                                                <span class="product__price-reg">{{$pro->giaXuat}}₫</span>
+                                                            </div>
+                                                            <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                                {{$pro->tenSP}}
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                @foreach ($products as $pro)
+                                                    @if ($pro->category_id == $value->id)
+                                                        <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                            <div class="product__img-box">
+                                                                <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
+                                                                    <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
+                                                                </a>
+                                                                <a href="{{route('user.addcart',['id'=>$pro->id, 'role'=>Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                                    Thêm vào giỏ hàng
+                                                                </a>
+                                                                <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                                    @php
+                                                                        echo date('m/Y', strtotime($pro->tgBaoQuan));
+                                                                    @endphp
+                                                                </span>
+                                                            </div>
+                                                            <div class="product__price m-t-10">
+                                                                {{-- <span class="product__price-del">0₫</span> --}}
+                                                                <span class="product__price-reg">{{$pro->giaNhap}}₫</span>
+                                                            </div>
+                                                            <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                                {{$pro->tenSP}}
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                    @else
+                                        @foreach ($products as $pro)
+                                            @if ($pro->category_id == $value->id)
+                                                <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                    <div class="product__img-box">
+                                                        <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
+                                                            <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
+                                                        </a>
+                                                        @if($pro->quantity == 0)
+                                                        <a href="{{route('login')}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                            Hết hàng
+                                                        </a>
+                                                        @else
+                                                        <a href="{{route('login')}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                            Thêm vào giỏ hàng
+                                                        </a>
+                                                        @endif
+                                                        <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                            @php
+                                                                echo date('m/Y', strtotime($pro->tgBaoQuan));
+                                                            @endphp
+                                                        </span>
+                                                    </div>
+                                                    <div class="product__price m-t-10">
+                                                        <span class="product__price-reg">{{$pro->giaXuat}}₫</span>
+                                                    </div>
+                                                    <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                        {{$pro->tenSP}}
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                            @endif
                                     @endif
                                 </div>
+
                                 <div class="swiper-buttons">
                                     <!-- Add Arrows -->
                                     <div class="swiper-button-next default__nav default__nav--next"><i class="fal fa-chevron-right"></i></div>
                                     <div class="swiper-button-prev default__nav default__nav--prev"><i class="fal fa-chevron-left"></i></div>
                                 </div>
                             </div>
-                            @endforeach
+                            
                         </div>
                     </div>
                 </div>
