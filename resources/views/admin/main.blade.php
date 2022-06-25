@@ -28,7 +28,7 @@
                                     <div class="mb-0">
                                         <span class="badge badge-primary-light"> <i class="mdi mdi-arrow-bottom-right"></i>
                                             @php
-                                                if($tongXuat == 0) echo "0%";
+                                                if($tongX == 0) echo "0%";
                                                 else{
                                                     $percent = ($tongXuat - $tongX)*100/$tongX;
                                                     echo number_format($percent,2)."%";
@@ -80,7 +80,7 @@
                                     <div class="mb-0">
                                         <span class="badge badge-danger-light"> <i class="mdi mdi-arrow-bottom-right"></i>
                                         @php
-                                            if($tongNhap == 0) echo "0%";
+                                            if($tongN == 0) echo "0%";
                                             else{
                                                 $percent = ($tongNhap - $tongN)*100/$tongN;
                                                 echo number_format($percent,2)."%";
@@ -104,11 +104,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">{{$doanhThu}} <span style="font-size: 12px;"><b>đ</b></span></h1>
+                                    <h1 class="mt-1 mb-3">
+                                        @php
+                                            echo number_format($doanhThu);
+                                        @endphp
+                                        <span style="font-size: 16px;"><b>đ</b></span></h1>
                                     <div class="mb-0">
                                         <span class="badge badge-success-light"> <i class="mdi mdi-arrow-bottom-right"></i>
                                             @php
-                                                if($dt == 0) echo "0%";
+                                                if($doanhThu == 0) echo "0%";
                                                 else{
                                                     $percent = ($doanhThu - $dt)*100/$doanhThu;
                                                     echo number_format($percent,2)."%";

@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-// use Cart;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -44,26 +44,57 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        $file = $request->file('image');
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('public/products', $fileName);
-
-        $proData=[
-            'tenSP' =>$request->tenSP,
-            'DVT' =>$request->DVT,
-            'mauSac' =>$request->mauSac,
-            'tgBaoQuan' =>$request->tgBaoQuan,
-            'giaNhap' =>$request->giaNhap,
-            'giaXuat' =>$request->giaXuat,
-            'description' =>$request->description,
-            'category_id' =>$request->category_id,
-            'image' =>$fileName
-        ];
-
-        Product::create($proData);
-        return response()->json([
-            'status' => 200
+        $validator = Validator::make($request->all(),[
+            'tenSP' => 'required',
+            'DVT' => 'required',
+            'mauSac' => 'required',
+            'tgBaoQuan' => 'required|date:"m-d-Y"',
+            'giaNhap' => 'required|numeric',
+            'giaXuat' => 'required|numeric',
+            'description' => 'required',
+            'image' => 'required',
+        ],[
+            'tenSP.required' => 'Tên sản phẩm bắt buộc nhập',
+            'DVT.required' => 'Đơn vị tính bắt buộc nhập',
+            'mauSac.required' => 'Màu sắc bắt buộ nhập',
+            'tgBaoQuan.required' => 'Ngày hết hạn bắt buộc nhập',
+            'tgBaoQuan.date' => 'Ngày hết hạn chưa đúng',
+            'giaNhap.required' => 'Giá nhập bắt buộc nhập',
+            'giaNhap.numeric' => 'Giá nhập là số',
+            'giaXuat.required' => 'Giá xuất bắt buộc nhập',
+            'giaXuat.numeric' => 'Giá xuất là số',
+            'description.required' => 'Mô tả sản phẩm bắt buộc nhâp',
+            'image.required' => 'Ảnh sản phẩm bắt buộc nhập',
         ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        } else{
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/products', $fileName);
+
+            $proData=[
+                'tenSP' =>$request->tenSP,
+                'DVT' =>$request->DVT,
+                'mauSac' =>$request->mauSac,
+                'tgBaoQuan' =>$request->tgBaoQuan,
+                'giaNhap' =>$request->giaNhap,
+                'giaXuat' =>$request->giaXuat,
+                'description' =>$request->description,
+                'category_id' =>$request->category_id,
+                'image' =>$fileName 
+            ];
+
+            Product::create($proData);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Thêm sản phẩm mới thành công!',
+            ]);
+        }
     }
 
     //

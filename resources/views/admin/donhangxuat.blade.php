@@ -95,12 +95,12 @@
 																							<td>{{$item->quantity}}</td>
 																							<td>
 																								@php
-																									echo number_format($item->price).' đ';
+																									echo number_format($item->price).'đ';
 																								@endphp
 																							</td>
 																							<td>
 																								@php
-																									echo number_format($item->quantity * $item->price).' đ';
+																									echo number_format($item->quantity * $item->price).'đ';
 																								@endphp
 																							</td>
 																						</tr>
@@ -110,8 +110,17 @@
 																			</table>
 																			<div class="mb-3">
 																				<label class="form-label" for="tenSP">Tổng số tiền: @php
-																							echo number_format($order->total).' đ';
+																							echo number_format($order->total).'đ';
 																						@endphp
+																				</label>
+																			</div>
+																			<div class="mb-3">
+																				<label class="form-label">Trạng thái:
+																					@if($order->is_payment == 0)
+																					<span class="text-danger">Chưa thanh toán</span>
+																					@else
+																					<span class="text-success">Đã thanh toán</span>
+																					@endif
 																				</label>
 																			</div>
 																			<table style="width:100%">

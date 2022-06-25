@@ -65,26 +65,27 @@
                         <div class="section-content">
                             <h5 class="section-content__title">Liên lạc</h5>
                         </div>
-                        <form class="contact-form-style" id="contact-form" action="#" method="POST">
+                        <form class="contact-form-style" id="contact-form" action="{{route('sendMail')}}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-box__single-group">
-                                        <input type="text" placeholder="Họ và tên" required>
+                                        <input type="text" name="name" placeholder="Họ và tên" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                    <div class="form-box__single-group">
-                                        <input type="email" placeholder="Email" required>
+                                        <input type="email" name="email" placeholder="Email" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                    <div class="form-box__single-group">
-                                        <input type="text" placeholder="Vấn đề" required>
+                                        <input type="text" name="title" placeholder="Vấn đề" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-box__single-group">
-                                        <textarea rows="10" placeholder="" required></textarea>
+                                        <textarea rows="10" name="body" required></textarea>
                                     </div>
                                     <button class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-t-30" type="submit">Gửi ý kiến</button>
                                 </div>

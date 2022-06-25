@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />
@@ -31,4 +31,22 @@
             </div>
         </form>
     </x-jet-authentication-card>
+</x-guest-layout> --}}
+
+<x-guest-layout>
+    <div class="login-form-container">
+        <div class="login-register-form p-4" >   
+            <x-jet-validation-errors class="mb-4 text-danger" />            
+            <form action="{{route('password.email')}}" method="POST">
+                @csrf
+                <div class="form-box__single-group m-tb-20">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="form-username" name="email" placeholder="Email" required autofocus >
+                </div>
+                <div class="text-center">
+                    <button class="btn btn--box btn--small btn--blue btn--uppercase btn--weight" type="submit">RESET PASSWORD</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </x-guest-layout>

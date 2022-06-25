@@ -2073,20 +2073,19 @@ input[type=checkbox]:checked::after {
   background: #1e5c64;
 }
 
-input[type=radio] {
+/* input[type=radio] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   position: relative;
-}
-input[type=radio]::after {
+} */
+input[type=radio] {
   position: absolute;
-  content: "";
-  font-family: "Font Awesome 5 Free";
   background: #fff;
   text-align: center;
+  width: 20px;
+  height: 20px;
   transition: all 0.3s ease;
-  top: -17px;
   color: #1e5c64;
 }
 
@@ -2118,11 +2117,11 @@ input[type=radio]::after {
   border: 2px solid #000 !important;
 }
 
-input[type=radio]:checked::after {
+/* input[type=radio]:checked::after {
   content: "";
-}
+} */
 
-input[type=radio].shipping-select::after {
+/* input[type=radio].shipping-select::after {
   position: absolute;
   content: "";
   font-family: "Font Awesome 5 Free";
@@ -2131,11 +2130,11 @@ input[type=radio].shipping-select::after {
   transition: all 0.3s ease;
   top: -17px;
   color: #1e5c64;
-}
+} */
 
-input[type=radio].shipping-select:checked::after {
+/* input[type=radio].shipping-select:checked::after {
   content: "";
-}
+} */
 
 .from-box__buttons {
   flex-direction: column;

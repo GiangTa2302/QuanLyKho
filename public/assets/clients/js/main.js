@@ -803,11 +803,11 @@
         Create an account toggle
     ---------------------------------*/
     $(".creat-account").on("click", function () {
-      $(".open-create-account").slideToggle(1000);
+      $(".open-create-account").slideDown(1000);
     });
 
     $(".shipping-account").on("click", function () {
-      $(".open-shipping-account").slideToggle(1000);
+      $(".open-create-account").slideUp(1000);
     });
 
     /*----------------------------------

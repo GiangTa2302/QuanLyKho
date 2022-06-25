@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('note')->nullable();
             $table->decimal('total', 20, 2)->default(0);
             $table->boolean('is_check')->nullable();
+            $table->boolean('is_payment');
             $table->string('typeOrder');
             $table->string('tenNVK')->nullable();
             $table->timestamps();

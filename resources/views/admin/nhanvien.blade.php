@@ -21,40 +21,42 @@
 					<div class="modal-content">
 						<div class="col-md-12">
 							<div class="card">
-								<ul class="alert alert_warning d-none" id="save_errorList"></ul>
 								<div class="card-header">
 									<h5 class="card-title">Nhân viên kho</h5>
 									<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
+								</div>
+								<div class=" mb-3 alert alert-danger d-none">
+									<ul id="save_errorList"></ul>
 								</div>
 								<div class="card-body">
 									<form id="AddEmployeeForm" enctype="multipart/form-data">
 										@csrf
 										<div class="mb-3">
 											<label class="form-label">Họ tên</label>
-											<input type="text" class="form-control" id="name" name="name" >
+											<input type="text" class="form-control" id="name" name="nameA" value="{{old('nameA')}}">
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Email</label>
-											<input type="email" class="form-control" id="email" name="email" >
+											<input type="text" class="form-control" id="email" name="emailA" value="{{old('emailA')}}">
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Địa chỉ</label>
-											<input type="text" class="form-control" id="address" name="address">
+											<input type="text" class="form-control" id="address" name="addressA" value="{{old('addressA')}}">
 										</div>
 										<div class="row">
 											<div class="mb-3 col-md-6">
 												<label class="form-label">Số điện thoại</label>
-												<input type="text" class="form-control" id="phone" name="phone">
+												<input type="text" class="form-control" id="phone" name="phoneA" value="{{old('phoneA')}}">
 											</div>
 											<div class="mb-3 col-md-6">
 												<label class="form-label">Ảnh</label>
-												<input type="file" class="form-control" id="image" name="image">
+												<input type="file" class="form-control" id="image" name="imageA" value="{{old('imageA')}}">
 											</div>
 										</div>
 										<div class="row">
 											<div class="mb-3 col-md-6">
 												<label class="form-label">Giới tính</label>
-												<select class="form-select" name="gender" id="gender" required>
+												<select class="form-select" name="genderA" id="gender" value="{{old('genderA')}}">
 													<option value="1">Nam</option>
 													<option value="2">Nữ</option>
 													<option value="3">Khác</option>
@@ -62,7 +64,7 @@
 											</div>
 											<div class="mb-3 col-md-6">
 												<label class="form-label">Năm sinh</label>
-											<input type="number" class="form-control" id="dob" name="dob">
+											<input type="text" class="form-control" id="dob" name="dobA" value="{{old('dobA')}}">
 											</div>
 										</div>
 										<div class="mb-3 text-center">
@@ -223,7 +225,7 @@
 				cache: false,
 				processData: false,
 				contentType: false,
-				dataType: 'json',
+				// dataType: 'json',
 				success: function(response){
 					if(response.status == 200){
 						$('#EditEmployeeForm'+id)[0].reset();
@@ -235,28 +237,34 @@
 			});
 		});
 	}
-
 </script>
 
 <script>
-	//upload
 	$('#AddEmployeeForm').submit(function(e){
 		e.preventDefault();
 		const formData = new FormData($('#AddEmployeeForm')[0]);
-
 		$.ajax({
 			url: "{{route('admin.postEmp')}}",
-			method: "POST",
+			method :"POST",
 			data: formData,
 			cache: false,
 			processData: false,
 			contentType: false,
+			dataType: 'json',
 			success: function(response){
+				if(response.status == 400){
+					$('.alert').removeClass('d-none');
+					$('#save_errorList').html("");
+					$.each(response.errors, function(key, err_value){
+						console.log(err_value);
+						$('#save_errorList').append(`<li>${err_value}</li>`);
+					});
+				}
 				if(response.status == 200){
 					$('#AddEmployeeForm')[0].reset();
 					$('#AddEmployeeModel').modal('hide');
 					location.reload();
-					alert("Thêm nhân viên kho mới thành công!");
+					alert(response.message);
 				}
 			}
 		});

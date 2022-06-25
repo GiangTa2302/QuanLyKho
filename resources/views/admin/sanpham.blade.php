@@ -21,10 +21,12 @@
 					<div class="modal-content">
 						<div class="col-md-12">
 							<div class="card">
-								<ul class="alert alert_warning d-none" id="save_errorList"></ul>
 								<div class="card-header">
 									<h5 class="card-title">Sản phẩm</h5>
 									<h6 class="card-subtitle text-muted">Thông tin chi tiết</h6>
+								</div>
+								<div class="mb-3 alert alert-danger d-none">
+									<ul id="save_errorList"></ul>
 								</div>
 								<div class="card-body">
 									<form id="AddProductForm" enctype="multipart/form-data" >
@@ -242,7 +244,7 @@
 										@endforeach
 									@else
 										<tr>
-											<td colspan="5">Không có nhân viên</td>
+											<td colspan="10" style="text-align: center;"có sản phẩm</td>
 										</tr>
 									@endif
 								</tbody>
@@ -446,12 +448,21 @@
 			cache: false,
 			processData: false,
 			contentType: false,
+			dataType: 'json',
 			success: function(response){
+				if(response.status == 400){
+					$('.alert').removeClass('d-none');
+					$('#save_errorList').html("");
+					$.each(response.errors, function(key, err_value){
+						console.log(err_value);
+						$('#save_errorList').append(`<li>${err_value}</li>`);
+					});
+				}
 				if(response.status == 200){
 					$('#AddProductForm')[0].reset();
 					$('#AddProductModel').modal('hide');
 					location.reload();
-					alert("Thêm sản phẩm mới thành công!");
+					alert(response.message);
 				}
 			}
 		});
@@ -463,7 +474,7 @@
 	function deletePro(id){
 		if(confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")){
 			$.ajax({
-				url:'san-pham/'+id,
+				url:'/admin/san-pham/'+id,
 				type:'DELETE',
 				data:{
 					_token: $("input[name=_token]").val()

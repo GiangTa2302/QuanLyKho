@@ -1,6 +1,10 @@
 <main id="main-container" class="main-container">
     <div class="container mt-5 mb-5">
-        
+        @if(session('stripe_error'))
+        <div class="alert alert-danger">
+            {{ session('stripe_error') }}
+        </div>
+        @endif
             <!-- Start Client Shipping Address -->
         <form action="{{url('user/place-order')}}" method="POST" >
             @csrf
@@ -9,80 +13,73 @@
                     <div class="section-content">
                         <h5 class="section-content__title">Chi tiết thanh toán</h5>
                     </div>
-                    
-                        <div class="row">
-                            <input type="hidden" value="{{Auth::user()->id}}" name="user_id">
-                            @if (Auth::user()->is_admin == 0)
-                            <div class="col-md-12">
-                                <div class="form-box__single-group">
-                                    <label for="form-first-name">Họ và tên</label>
-                                    <input type="text" id="form-first-name" name="name">
-                                    <input type="hidden" name='typeOrder' value="xuat">
-                                </div>
-                            </div>
-                            @else
-                            <div class="col-md-12">
-                                <div class="form-box__single-group">
-                                    <label for="form-first-name">Tên công ty</label>
-                                    <input type="text" id="form-first-name" name="name">
-                                    <input type="hidden" name='typeOrder' value="nhap">
-                                </div>
-                            </div>
-                            @endif
-                            <div class="col-md-12">
-                                <div class="form-box__single-group">
-                                    <label for="form-country">Quốc gia<span style="color: red;">*</span></label>
-                                    <select id="form-country" name="country" required>
-                                        <option value="VN">Việt Nam</option>
-                                        <option value="MY">Mỹ</option>
-                                        <option value="TQ">Trung Quốc</option>
-                                        <option value="NB">Nhật Bản</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-box__single-group">
-                                    <label for="form-state">Tỉnh/Thành Phố<span style="color: red;">*</span></label>
-                                    <input type="text" id="form-state-1" name="city" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-box__single-group">
-                                    <label for="form-state">Quận/Huyện<span style="color: red;">*</span></label>
-                                    <input type="text" id="form-state-1" name="province" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-box__single-group">
-                                    <label for="form-address-1">Địa chỉ nhà<span style="color: red;">*</span></label>
-                                    <input type="text" id="form-address-1" name="address" required>
-                                </div>
-                            </div>
-                            {{-- <div class="col-md-6">
-                                <div class="form-box__single-group">
-                                    <label for="form-zipcode">Zip/Postal Code</label>
-                                    <input type="text" id="form-zipcode" name="zipcode">
-                                </div>
-                            </div> --}}
-                            <div class="col-md-6">
-                                <div class="form-box__single-group">
-                                    <label for="form-phone">Số điện thoại</label>
-                                    <input type="text" id="form-phone" name="phone">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-box__single-group">
-                                    <label for="form-email">Email</label>
-                                    <input type="email" id="form-email" name="email">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-box__single-group">
-                                    <h6>Ghi chú đơn hàng</h6>
-                                    <textarea  id="form-additional-info" rows="5" name="note"></textarea>
-                                </div>
+                    <div class="row">
+                        <input type="hidden" value="{{Auth::user()->id}}" name="user_id">
+                        @if (Auth::user()->is_admin == 0)
+                        <div class="col-md-12">
+                            <div class="form-box__single-group">
+                                <label for="form-first-name">Họ và tên</label>
+                                <input type="text" id="form-first-name" name="fullname" value="{{old('fullname')}}">
+                                <input type="hidden" name='typeOrder' value="xuat">
                             </div>
                         </div>
+                        @else
+                        <div class="col-md-12">
+                            <div class="form-box__single-group">
+                                <label for="form-first-name">Tên công ty</label>
+                                <input type="text" id="form-first-name" name="fullname" value="{{old('fullname')}}">
+                                <input type="hidden" name='typeOrder' value="nhap">
+                            </div>
+                        </div>
+                        @endif
+                        <div class="col-md-12">
+                            <div class="form-box__single-group">
+                                <label for="form-country">Quốc gia<span style="color: red;">*</span></label>
+                                <select id="form-country" name="country" required>
+                                    <option value="VN">Việt Nam</option>
+                                    <option value="MY">Mỹ</option>
+                                    <option value="TQ">Trung Quốc</option>
+                                    <option value="NB">Nhật Bản</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-box__single-group">
+                                <label for="form-state">Tỉnh/Thành Phố<span style="color: red;">*</span></label>
+                                <input type="text" id="form-state-1" name="city" value="{{old('city')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-box__single-group">
+                                <label for="form-state">Quận/Huyện<span style="color: red;">*</span></label>
+                                <input type="text" id="form-state-1" name="province" value="{{old('province')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-box__single-group">
+                                <label for="form-address-1">Địa chỉ nhà<span style="color: red;">*</span></label>
+                                <input type="text" id="form-address-1" name="address" value="{{old('address')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-box__single-group">
+                                <label for="form-phone">Số điện thoại</label>
+                                <input type="text" id="form-phone" name="phone" value="{{old('phone')}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-box__single-group">
+                                <label for="form-email">Email</label>
+                                <input type="email" id="form-email" name="email" value="{{old('email')}}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-box__single-group">
+                                <h6>Ghi chú đơn hàng</h6>
+                                <textarea  id="form-additional-info" rows="5" name="note">{{old('note')}}</textarea>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div> <!-- End Client Shipping Address -->
                 
@@ -105,81 +102,84 @@
                                     @if (session('cart'))
                                         @foreach ( session('cart') as $id => $details )
                                         <li class="d-flex justify-content-between">
-                                            <span class="your-order-middle-left">{{$details['name']}} X {{$details['qty']}}</span>
+                                            <span class="your-order-middle-left">{{$details['name']}} x {{$details['qty']}}</span>
                                             <span class="your-order-middle-right">
                                                 @php
                                                     $sum = $details['price']*$details['qty'];
                                                     $total += $sum;
-                                                    echo $sum;
+                                                    echo number_format($sum).'đ';
                                                 @endphp
                                             </span>
                                         </li>
                                         @endforeach
                                     @endif
                                 </ul>
+                                <input type="hidden" name="total" value="{{$total}}">
                                 <div class="your-order-bottom d-flex justify-content-between">
                                     <h5 class="your-order-total-left">Tổng tiền hàng</h5>
                                     <h5 class="your-order-total-right">
                                         @php
-                                            echo $total;
+                                            echo number_format($total).'đ';
                                         @endphp
                                     </h5>
                                 </div>
-
-                                {{-- <div class="payment-method">
-                                    <div class="payment-accordion element-mrg">
-                                        <div class="panel-group" id="accordion">
-                                            <div class="panel payment-accordion">
-                                                <div class="panel-heading" id="method-one">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion" href="#method1" aria-expanded="false" class="collapsed">
-                                                            Direct bank transfer
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                                <div id="method1" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="panel payment-accordion">
-                                                <div class="panel-heading" id="method-two">
-                                                    <h4 class="panel-title">
-                                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#method2" aria-expanded="false">
-                                                            Check payments
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                                <div id="method2" class="panel-collapse collapse" >
-                                                    <div class="panel-body">
-                                                        <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="panel payment-accordion">
-                                                <div class="panel-heading" id="method-three">
-                                                    <h4 class="panel-title">
-                                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#method3" aria-expanded="false">
-                                                            Cash on delivery
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                                <div id="method3" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
+                    
+                        @if (Auth::user()->is_admin == 0)
+                        <div class="section-content">
+                            <h5 class="section-content__title">Phương thức thanh toán</h5>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="m-tb-20">
+                                <label>
+                                    <input type="radio" name="check" class="shipping-account"  id="check-account" value="nh" checked>
+                                    <span>Thanh toán khi nhận hàng</span>
+                                </label>
+                            </div>
+                            <div class="m-tb-20">
+                                <label>
+                                    <input type="radio" name="check" class="creat-account" value="th" id="check-account" @php
+                                        echo ($errors->any()) ? 'checked' : ''; 
+                                    @endphp>
+                                    <span>Thẻ tín dụng/Ghi nợ</span>
+                                </label>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <div class="toogle-form open-create-account" style="display: @php
+                                    echo ($errors->any()) ? 'block' : 'none'; 
+                                @endphp" >
+                                    <div class="form-box__single-group">
+                                        <input type="text" name="card_number" placeholder="Số thẻ" value="{{old('card_number')}}">
+                                    </div>
+                                    <div class="form-box__single-group">
+                                        <input type="text" name="expiry_month" placeholder="MM" value="{{old('expiry_month')}}">
+                                    </div>
+                                    <div class="form-box__single-group">
+                                        <input type="text" name="expiry_year" placeholder="YY" value="{{old('expiry_year')}}">
+                                    </div>
+                                    <div class="form-box__single-group">
+                                        <input type="password" name="cvv" placeholder="Mã CVV" value="{{old('cvv')}}">
+                                    </div>
+                                    <div class="form-box__single-group">
+                                        <input type="text" name="name" placeholder="Họ và tên chủ thẻ" value="{{old('name')}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <button class="btn btn--block btn--small btn--blue btn--uppercase btn--weight" type="submit">ĐẶT HÀNG</button>
                     </div>
-                </div> <!-- End Order Wrapper -->
+                </div> 
+                <!-- End Order Wrapper -->
             </div>
         </form> 
         

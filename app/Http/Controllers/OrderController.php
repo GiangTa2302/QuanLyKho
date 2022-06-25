@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Stripe;
 
 class OrderController extends Controller
 {
@@ -40,37 +41,129 @@ class OrderController extends Controller
     }
 
     public function placeorder(Request $request){
-        $cart = session()->get('cart'); 
-        $id = $request->input('user_id');
 
-        $order = new Order();
-        $order->user_id = $id;
-        $order->name = $request->input('name');
-        $order->country = $request->input('country');
-        $order->city = $request->input('city');
-        $order->province = $request->input('province');
-        $order->address = $request->input('address');
-        $order->phone = $request->input('phone');
-        $order->email = $request->input('email');
-        $order->note = $request->input('note');
-        $order->typeOrder = $request->input('typeOrder');
-        $order->save();
-
-        foreach($cart as $item)
-        {
-            OrderItem::create([
-                'pro_id' => $item['pro_id'],
-                'order_id' => $order->id,
-                'price' => $item['price'],
-                'quantity' => $item['qty'],
+        if($request->check == 'th'){
+            $request->validate([
+                'card_number' => 'required|numeric',
+                'expiry_month' => 'required|numeric|between:1,12',
+                'expiry_year' => 'required|numeric|min:2022',
+                'cvv' => 'required|numeric',
+                'name' => 'required',
+            ],[
+                'card_number.required' => 'Số thẻ bắt buộc phải nhập',
+                'card_number.numeric' => 'Số thẻ là số',
+                'expiry_month.required' => 'Tháng hết ahjn bắt buộc phải nhập',
+                'expiry_month.numeric' => 'Tháng hết hạn là số',
+                'expiry_month.between' => 'Tháng hết hạn chưa đúng',
+                'expiry_year.required' => 'Năm hết hạn bắt buộc phải nhập',
+                'expiry_year.numeric' => 'Năm hết hạn là số',
+                'expiry_year.min' => 'Thẻ đã hết hạn',
+                'cvv.required' => 'Mã CVV bắt buộc phải nhập',
+                'cvv.numeric' => 'Mã CVV chưa đúng',
+                'name.required' => 'Họ tên bắt buộc phải nhập',
             ]);
 
-            $order->total += $item['price'] * $item['qty'];
+            $stripe = Stripe::make(env('STRIPE_KEY'));
+            try{
+                $token = $stripe->tokens()->create([
+                    'card' => [
+                        'number' => $request->card_number,
+                        'exp_month' => $request->expiry_month,
+                        'exp_year' => $request->expiry_year,
+                        'cvc' =>$request->cvv
+                    ]
+                ]);
+
+                if(!isset($token['id'])){
+                    return redirect()->back()->with('stripe_error','The stripe token was not generated correctly!');
+                }
+
+                $customer = $stripe->customers()->create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'source' => $token['id']
+                ]);
+
+                $charge = $stripe->charges()->create([
+                    'customer' => $customer['id'],
+                    'currency' => 'VND',
+                    'amount' =>$request->total,
+                    'description' => 'Hi',
+                ]);
+
+                if($charge['status'] == 'succeeded'){
+                    $cart = session()->get('cart'); 
+                    $id = $request->input('user_id');
+
+                    $order = new Order();
+                    $order->user_id = $id;
+                    $order->name = $request->input('fullname');
+                    $order->country = $request->input('country');
+                    $order->city = $request->input('city');
+                    $order->province = $request->input('province');
+                    $order->address = $request->input('address');
+                    $order->phone = $request->input('phone');
+                    $order->email = $request->input('email');
+                    $order->note = $request->input('note');
+                    $order->typeOrder = $request->input('typeOrder');
+                    $order->is_payment = 1;
+                    $order->save();
+
+                    foreach($cart as $item){
+                        OrderItem::create([
+                            'pro_id' => $item['pro_id'],
+                            'order_id' => $order->id,
+                            'price' => $item['price'],
+                            'quantity' => $item['qty'],
+                        ]);
+
+                        $order->total += $item['price'] * $item['qty'];
+                    }
+                    Order::where('id', $order->id)->update(['total'=> $order->total]);
+                    session()->forget('cart', $cart);
+                    
+                    return redirect()->route('user.myAccount',['id'=>$id])->with('success', 'Đặt hàng thành công!');
+                }
+                else{
+                    return redirect()->back()->with('stripe_error','The stripe token was not generated correctly!');
+                }
+            } catch(Exception $e){
+                return redirect()->back()->with('stripe_error','The stripe token was not generated correctly!');
+            }
+        } else{
+            $cart = session()->get('cart'); 
+            $id = $request->input('user_id');
+
+            $order = new Order();
+            $order->user_id = $id;
+            $order->name = $request->input('fullname');
+            $order->country = $request->input('country');
+            $order->city = $request->input('city');
+            $order->province = $request->input('province');
+            $order->address = $request->input('address');
+            $order->phone = $request->input('phone');
+            $order->email = $request->input('email');
+            $order->note = $request->input('note');
+            $order->typeOrder = $request->input('typeOrder');
+            $order->is_payment = 0;
+            $order->save();
+
+            foreach($cart as $item){
+                OrderItem::create([
+                    'pro_id' => $item['pro_id'],
+                    'order_id' => $order->id,
+                    'price' => $item['price'],
+                    'quantity' => $item['qty'],
+                ]);
+
+                $order->total += $item['price'] * $item['qty'];
+            }
+            Order::where('id', $order->id)->update(['total'=> $order->total]);
+            session()->forget('cart', $cart);
+            
+            return redirect()->route('user.myAccount',['id'=>$id])->with('success', 'Đặt hàng thành công!');
         }
-        Order::where('id', $order->id)->update(['total'=> $order->total]);
-        session()->forget('cart', $cart);
-        
-        return redirect()->route('user.myAccount',['id'=>$id])->with('success', 'Đặt hàng thành công!');
     }
 
     public function donnhap(){

@@ -10,6 +10,7 @@ use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 
 
@@ -22,6 +23,8 @@ Route::get('lien-he', [HomeController::class, 'contact'])->name('contact');
 Route::get('danh-sach-san-pham/{id}',[ProductController::class,'getProductByCategory'])->name('listProduct');
 
 Route::get('chi-tiet-san-pham/{id}',[ProductController::class,'getDetailProById'])->name('detailProduct');
+
+Route::post('send-mail',[MailController::class,'sendEmail'])->name('sendMail');
 
 Route::prefix('user')->name('user.')->middleware(['auth:sanctum', 'verified'])->group(function(){
 
@@ -47,6 +50,8 @@ Route::prefix('user')->name('user.')->middleware(['auth:sanctum', 'verified'])->
     Route::get('checkout',[OrderController::class, 'index'])->name('checkout');
 
     Route::post('place-order',[OrderController::class, 'placeorder']);
+
+    // Route::get('send-mail',[MailController::class,'sendEmail']);
 
 });
 
@@ -90,7 +95,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'verified', 
 
     Route::post('update-san-pham',[ProductController::class,'updatePro'])->name('updatePro');
 
-    Route::delete('san-pham/{id}',[ProductController::class,'deleteProById']);
+    Route::delete('san-pham/{id}',[ProductController::class,'deleteProById'])->name('delPro');
 
     //Thống kê
     Route::get('thong-ke',[AdminController::class,'thongke'])->name('thongke');
