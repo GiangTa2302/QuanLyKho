@@ -1,18 +1,24 @@
 <main class="content">
 	<div class="container-fluid p-0">
 
-		<h1 class="h3 mb-3">Profile</h1>
+		<h1 class="h3 mb-3">Thông tin cá nhân</h1>
 
 		<div class="row">
 			<div class="col-md-4 col-xl-3">
 				<div class="card mb-3">
 					<div class="card-header">
-						<h5 class="card-title mb-0">Profile Details</h5>
+						<h5 class="card-title mb-0">Thông tin chi tiết</h5>
 					</div>
 					<div class="card-body text-center">
-						<img src="img/avatars/avatar-4.jpg" alt="Christina Mason" class="img-fluid rounded-circle mb-2" width="128" height="128" />
-						<h5 class="card-title mb-0">Christina Mason</h5>
-						<div class="text-muted mb-2">Lead Developer</div>
+						<img src="{{asset('storage/users/'.$user->image)}}" alt="{{$user->name}}" class="img-fluid rounded-circle mb-2" width="128" height="128" />
+						<h5 class="card-title mb-0">{{$user->name}}</h5>
+						<div class="text-muted mb-2">
+							@if($user->is_admin == 1)
+							Admin
+							@else
+							Nhân viên kho
+							@endif
+						</div>
 
 						<div>
 							<a class="btn btn-primary btn-sm" href="#">Follow</a>
@@ -21,7 +27,7 @@
 					</div>
 					<hr class="my-0" />
 					<div class="card-body">
-						<h5 class="h6 card-title">Skills</h5>
+						<h5 class="h6 card-title">Kỹ năng</h5>
 						<a href="#" class="badge bg-primary me-1 my-1">HTML</a>
 						<a href="#" class="badge bg-primary me-1 my-1">JavaScript</a>
 						<a href="#" class="badge bg-primary me-1 my-1">Sass</a>
@@ -34,7 +40,7 @@
 					</div>
 					<hr class="my-0" />
 					<div class="card-body">
-						<h5 class="h6 card-title">About</h5>
+						<h5 class="h6 card-title">Học vấn</h5>
 						<ul class="list-unstyled mb-0">
 							<li class="mb-1"><span data-feather="home" class="feather-sm me-1"></span> Lives in <a href="#">San Francisco, SA</a>
 							</li>

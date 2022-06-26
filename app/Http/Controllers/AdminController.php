@@ -101,10 +101,12 @@ class AdminController extends Controller
         return view('homeMain', $this->data, compact('chart'));
     }
 
-    public function profile(){
+    public function profile($user_id){
         $this->data['layout'] = 'admin.profile';
         $this->data['isAdmin'] = true;
 
-        return view('homeMain', $this->data);
+        $user = User::find($user_id);
+
+        return view('homeMain', $this->data, compact('user'));
     }
 }

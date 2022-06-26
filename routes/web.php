@@ -22,9 +22,13 @@ Route::get('lien-he', [HomeController::class, 'contact'])->name('contact');
 
 Route::get('danh-sach-san-pham/{id}',[ProductController::class,'getProductByCategory'])->name('listProduct');
 
+Route::post('tim-kiem',[ProductController::class,'getProductByName'])->name('searchProduct');
+
 Route::get('chi-tiet-san-pham/{id}',[ProductController::class,'getDetailProById'])->name('detailProduct');
 
 Route::post('send-mail',[MailController::class,'sendEmail'])->name('sendMail');
+
+Route::post('receive-mail',[MailController::class,'receiveEmail'])->name('receiveMail');
 
 Route::prefix('user')->name('user.')->middleware(['auth:sanctum', 'verified'])->group(function(){
 
@@ -51,8 +55,6 @@ Route::prefix('user')->name('user.')->middleware(['auth:sanctum', 'verified'])->
 
     Route::post('place-order',[OrderController::class, 'placeorder']);
 
-    // Route::get('send-mail',[MailController::class,'sendEmail']);
-
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'verified', 'authadmin'])->group(function(){
@@ -61,7 +63,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'verified', 
     Route::get('/',[AdminController::class,'index'])->name('home');
 
     //Tài khoản cá nhân
-    Route::get('/profile',[AdminController::class,'profile'])->name('profile');
+    Route::get('profile/{user_id}',[AdminController::class,'profile'])->name('profile');
 
     //Danh mục sản phẩm
     Route::get('danh-muc',[CategoryController::class,'index'])->name('danhmuc');

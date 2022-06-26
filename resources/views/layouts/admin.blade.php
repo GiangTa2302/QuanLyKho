@@ -63,7 +63,7 @@
 								<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded me-1" alt="{{Auth::user()->name}}" />
 							</div>
 							<div class="flex-grow-1 ps-2">
-								<a class="sidebar-user-title" href="{{route('admin.profile')}}">
+								<a class="sidebar-user-title" href="{{route('admin.profile',['user_id'=>Auth::user()->id])}}">
 									{{Auth::user()->name}}
 									<div class="sidebar-user-subtitle">Admin</div>
 								</a>
@@ -152,7 +152,7 @@
 								<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded me-1" alt="{{Auth::user()->name}}" />
 							</div>
 							<div class="flex-grow-1 ps-2">
-								<a class="sidebar-user-title" href="{{route('admin.profile')}}">
+								<a class="sidebar-user-title" href="{{route('admin.profile',['user_id'=>Auth::user()->id])}}">
 									{{Auth::user()->name}}
 									<div class="sidebar-user-subtitle">Nhân viên kho</div>
 								</a>
@@ -370,7 +370,7 @@
 								<img src="{{asset('storage/users/'.Auth::user()->image)}}" class="avatar img-fluid rounded" alt="Charles Hall" />
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="{{route('admin.profile')}}"><i class="align-middle me-1" data-feather="user"></i> Cá nhân</a>
+								<a class="dropdown-item" href="{{route('admin.profile',['user_id'=>Auth::user()->id])}}"><i class="align-middle me-1" data-feather="user"></i> Cá nhân</a>
 								<div class="dropdown-divider"></div>
 								
 								<a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>

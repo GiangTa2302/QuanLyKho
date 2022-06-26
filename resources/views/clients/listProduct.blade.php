@@ -5,68 +5,45 @@
                 <div class="product-default-slider-5grid overflow-hidden  m-t-50">
                     <div class="swiper-wrapper">
                         <!-- Start Single Default Product -->
-                        @foreach ($pros as $pro)
-                        @if(Route::has('login'))
-                            @auth
-                                @if(Auth::user()->is_admin == 0)
-                                    <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
-                                                <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
-                                            </a>
-                                            @if($pro->quantity == 0)
-                                            <a href="" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn" >
-                                                Hết hàng
-                                            </a>
-                                            @else
-                                            <a href="{{route('user.addcart',['id'=>$pro->id, 'role'=> Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
-                                                Thêm vào giỏ hàng
-                                            </a>
-                                            @endif
-                                            <span class="product__tag product__tag--discount" style="font-size: 8px;">
-                                                @php
-                                                    echo date('m/Y', strtotime($pro->tgBaoQuan));
-                                                @endphp
-                                            </span>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            <span class="product__price-reg">{{$pro->giaXuat}}₫</span>
-                                        </div>
-                                        <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
-                                            {{$pro->tenSP}}
-                                        </a>
-                                    </div>
-                                @elseif(Auth::user()->is_admin == 2)
-                                    <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
-                                        <div class="product__img-box">
-                                            <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
-                                                <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
-                                            </a>
-                                            <a href="{{route('user.addcart',['id'=>$pro->id, 'role' => Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
-                                                Thêm vào giỏ hàng
-                                            </a>
-                                            <span class="product__tag product__tag--discount" style="font-size: 8px;">
-                                                @php
-                                                    echo date('m/Y', strtotime($pro->tgBaoQuan));
-                                                @endphp
-                                            </span>
-                                        </div>
-                                        <div class="product__price m-t-10">
-                                            {{-- <span class="product__price-del">0₫</span> --}}
-                                            <span class="product__price-reg">{{$pro->giaNhap}}₫</span>
-                                        </div>
-                                        <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
-                                            {{$pro->tenSP}}
-                                        </a>
-                                    </div>
-                                    @endif
-                                    @else
+                        @if(count($pros) != 0)
+                            @foreach ($pros as $pro)
+                            @if(Route::has('login'))
+                                @auth
+                                    @if(Auth::user()->is_admin == 0)
                                         <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
                                             <div class="product__img-box">
                                                 <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
                                                     <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
                                                 </a>
-                                                <a  href="{{route('login')}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                @if($pro->quantity == 0)
+                                                <a href="" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn" >
+                                                    Hết hàng
+                                                </a>
+                                                @else
+                                                <a href="{{route('user.addcart',['id'=>$pro->id, 'role'=> Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                    Thêm vào giỏ hàng
+                                                </a>
+                                                @endif
+                                                <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                    @php
+                                                        echo date('m/Y', strtotime($pro->tgBaoQuan));
+                                                    @endphp
+                                                </span>
+                                            </div>
+                                            <div class="product__price m-t-10">
+                                                <span class="product__price-reg">{{$pro->giaXuat}}₫</span>
+                                            </div>
+                                            <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                {{$pro->tenSP}}
+                                            </a>
+                                        </div>
+                                    @elseif(Auth::user()->is_admin == 2)
+                                        <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                            <div class="product__img-box">
+                                                <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
+                                                    <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
+                                                </a>
+                                                <a href="{{route('user.addcart',['id'=>$pro->id, 'role' => Auth::user()->is_admin])}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
                                                     Thêm vào giỏ hàng
                                                 </a>
                                                 <span class="product__tag product__tag--discount" style="font-size: 8px;">
@@ -83,9 +60,36 @@
                                                 {{$pro->tenSP}}
                                             </a>
                                         </div>
-                                @endif
-                                @endif
-                        @endforeach
+                                        @endif
+                                        @else
+                                            <div class="product__box product__box--default product__box--border-hover swiper-slide text-center">
+                                                <div class="product__img-box">
+                                                    <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__img--link">
+                                                        <img class="product__img" src="{{asset('storage/products/'.$pro->image)}}" alt="" height="200">
+                                                    </a>
+                                                    <a  href="{{route('login')}}" class="btn btn--box btn--small btn--gray btn--uppercase btn--weight btn--hover-zoom product__upper-btn">
+                                                        Thêm vào giỏ hàng
+                                                    </a>
+                                                    <span class="product__tag product__tag--discount" style="font-size: 8px;">
+                                                        @php
+                                                            echo date('m/Y', strtotime($pro->tgBaoQuan));
+                                                        @endphp
+                                                    </span>
+                                                </div>
+                                                <div class="product__price m-t-10">
+                                                    {{-- <span class="product__price-del">0₫</span> --}}
+                                                    <span class="product__price-reg">{{$pro->giaNhap}}₫</span>
+                                                </div>
+                                                <a href="{{route('detailProduct',['id'=>$pro->id])}}" class="product__link product__link--underline product__link--weight-light m-t-15">
+                                                    {{$pro->tenSP}}
+                                                </a>
+                                            </div>
+                                    @endif
+                                    @endif
+                            @endforeach
+                        @else
+                        <div class="alert alert-warning" role="alert" style="width: 100%;text-align: center;">Không có sản phẩm nào!</div>
+                        @endif
                     </div>
                     <div class="swiper-buttons">
                         <!-- Add Arrows -->

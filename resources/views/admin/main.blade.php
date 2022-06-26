@@ -254,8 +254,14 @@
                                     <div class="d-flex flex-column w-100">
                                         <span class="me-2 mb-1 text-muted">
                                             @php
-                                                $percent = ($item->qty - $item->quantity)*100/$item->qty;
-                                                echo number_format($percent, 2).'%';
+                                                if($item->qty == 0){
+                                                    $percent = 0;
+                                                    echo number_format($percent, 2).'%';
+                                                }
+                                                else{
+                                                    $percent = ($item->qty - $item->quantity)*100/$item->qty;
+                                                    echo number_format($percent, 2).'%';
+                                                }
                                             @endphp
                                         </span>
                                         <div class="progress progress-sm bg-danger-light w-100">

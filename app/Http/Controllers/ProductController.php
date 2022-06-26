@@ -112,6 +112,16 @@ class ProductController extends Controller
         return view('homeMain', $this->data, compact('pros'));
     }
 
+    public function getProductByName(Request $request){
+        $this->data['layout'] = 'clients.listProduct';
+        $this->data['isAdmin'] = false;
+        $namePro = $request->searchName;
+        $pros = Product::where('tenSP', $namePro)
+        ->orWhere('tenSP', 'like', '%' . $namePro . '%')->get();
+        
+        return view('homeMain', $this->data, compact('pros'));
+    }
+
     public function getDetailProById($id){
         $this->data['layout'] = 'clients.detailProduct';
         $this->data['isAdmin'] = false;

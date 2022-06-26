@@ -48,9 +48,10 @@
                         <div class="col-lg-10">
                             <div class="row align-items-center">
                                 <div class="col-lg-7">
-                                    <form class="header__search-form" action="#">
+                                    <form class="header__search-form" action="{{route('searchProduct')}}" method="POST">
                                         <div class="header__search-input">
-                                            <input type="search" placeholder="Nhập sản phẩm cần tìm">
+                                            @csrf
+                                            <input type="search" name="searchName" placeholder="Nhập sản phẩm cần tìm">
                                             <button class="btn btn--submit btn--blue btn--uppercase btn--weight " type="submit">Tìm kiếm</button>
                                         </div>
                                     </form>
@@ -124,56 +125,6 @@
            @include('clients.header')
     
             </div> <!-- ::::::  End Large Header Section  ::::::  -->
-    
-        <!-- ::::::  Start Mobile Header Section  ::::::  -->
-        <div class="header__mobile mobile-header--1">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Start Header Mobile Top area -->
-                        <div class="header__mobile-top">
-                            <div class="mobile-header__logo">
-                                <a href="{{route('home')}}" class="mobile-header__logo-link">
-                                    <img src="assets/clients/img/logo/logo.jpg" alt="" class="mobile-header__logo-img">
-                                </a>
-                            </div>
-                            <div class="header__wishlist-box">
-                                <!-- Start Header Wishlist Box -->
-                                <div class="header__wishlist pos-relative">
-                                    <a href="wishlist.html" class="header__wishlist-link">
-                                        <i class="icon-heart"></i>
-                                        <span class="wishlist-item-count pos-absolute">3</span>
-                                    </a>
-                                </div> <!-- End Header Wishlist Box -->
-    
-                                <!-- Start Header Add Cart Box -->
-                                <div class="header-add-cart pos-relative m-l-20">
-                                    <a href="#offcanvas-add-cart__box" class="header__wishlist-link offcanvas--open-checkout offcanvas-toggle">
-                                        <i class="icon-shopping-cart"></i>
-                                        <span class="wishlist-item-count pos-absolute">3</span>
-                                    </a>
-                                </div> <!-- End Header Add Cart Box -->
-    
-                                <a href="#offcanvas-mobile-menu" class="offcanvas-toggle m-l-20"><i class="icon-menu"></i></a>
-    
-                            </div>
-                        </div> <!-- End Header Mobile Top area -->
-    
-                        <!-- Start Header Mobile Middle area -->
-                        <div class="header__mobile-middle header__top--style-1 p-tb-10">
-                            <form class="header__search-form" action="" method="POST">
-                                <div class="header__search-input header__search-input--mobile">
-                                    <input type="search" placeholder="Nhập sản phẩm cần tìm">
-                                    <button class="btn btn--submit btn--blue btn--uppercase btn--weight" type="submit"><i class="fal fa-search"></i></button>
-                                </div>
-                            </form>
-                        </div> 
-                        <!-- End Header Mobile Middle area -->
-    
-                    </div>
-                </div>
-            </div>
-        </div> <!-- ::::::  Start Mobile Header Section  ::::::  -->
     
         <div class="offcanvas-overlay"></div>
     </header>
@@ -250,9 +201,10 @@
                             <div class="col-12">
                                 <div class="footer__form">
                                     <h4 class="footer__nav-title">Nhận thông tin mới nhất</h4>
-                                    <form action="#" class="footer__form-box">
-                                        <input type="email" placeholder="email">
-                                        <button class="btn btn--submit btn--blue btn--uppercase btn--weight " type="submit">Gửi</button>
+                                    <form action="{{route('receiveMail')}}" method="POST" class="footer__form-box">
+                                        @csrf
+                                        <input type="email" name="email" placeholder="email của bạn">
+                                        <button class="btn btn--submit btn--blue btn--uppercase btn--weight" type="submit">Gửi</button>
                                     </form>
                                 </div>
                             </div>

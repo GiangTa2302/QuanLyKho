@@ -31,7 +31,9 @@
                                         <a href="{{route('detailProduct',['id'=>$details['pro_id']])}}"><img class="img-fluid" src="{{asset('storage/products/'.$details['image'])}}" alt=""></a>
                                     </td>
                                     <td class="product-name"><a href="{{route('detailProduct',['id'=>$details['pro_id']])}}">{{$details['name']}}</a></td>
-                                    <td class="product-price-cart"><span class="amount">{{$details['price']}}</span></td>
+                                    <td class="product-price-cart"><span class="amount">@php
+                                        echo number_format($details['price']).'đ';
+                                    @endphp</span></td>
                                     <td class="product-quantities">
                                         <div class="row">
                                             <a class="mb-3 col-md-4 btn btn-light btnAdd" href="{{route('user.addQty',['id'=>$details['pro_id'],'role'=>Auth::user()->is_admin])}}">+</a>
@@ -41,7 +43,7 @@
                                     </td>
                                     <td class="product-subtotal">
                                         @php
-                                            echo $details['price']*$details['qty'];
+                                            echo number_format($details['price']*$details['qty']).'đ';
                                         @endphp
                                     </td>
                                     <td class="product-remove">
